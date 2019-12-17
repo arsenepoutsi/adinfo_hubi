@@ -62,7 +62,7 @@ class HubiAccountInvoice(models.Model):
     #    sign = self.type in ['in_refund', 'out_refund'] and -1 or 1
     #    self.amount_tax_signed = amount_tax_signed * sign
         
-    @api.one
+    #@api.one
     @api.depends('invoice_line_ids.price_subtotal', 'tax_line_ids.amount', 'tax_line_ids.amount_rounding',
                  'currency_id', 'company_id', 'date_invoice', 'type')
     def _compute_amount(self):
@@ -124,7 +124,7 @@ class HubiAccountInvoice(models.Model):
 
 
 
-    @api.multi
+    #@api.multi
     @api.onchange('partner_id')
     def onchange_partner_id_shipper(self):
         """
@@ -178,7 +178,7 @@ class HubiAccountInvoice(models.Model):
                 for line in inv.invoice_line_ids:
                     line.discount = discount
 
-    @api.multi
+    #@api.multi
     def compute_invoice_totals(self, company_currency, invoice_move_lines):
         total = 0
         total_currency = 0
@@ -201,12 +201,12 @@ class HubiAccountInvoice(models.Model):
                 total_currency -= line['amount_currency'] or line['price']
         return total, total_currency, invoice_move_lines
 
-    @api.multi
+    #@api.multi
     def button_dummy(self):
         self.supply_rate()
         return True 
     
-    @api.multi
+    #@api.multi
     def invoice_send_email(self):
         #raise UserError(_('Send email.'))
         attachments_ids = []
@@ -378,7 +378,7 @@ class HubiAccountInvoiceLine(models.Model):
         
         return {'domain': {'product_id': product_domain}}
     
-    @api.one
+    #@api.one
     @api.depends('quantity', 'price_total', 'product_id')
     def _compute_weight(self):
         """
@@ -412,7 +412,7 @@ class HubiAccountInvoiceLine(models.Model):
                 'price_weight': price_weight
             })
 
-    @api.one
+    #@api.one
     @api.depends('price_total')
     def compute_price(self):
         currency = self.invoice_id and self.invoice_id.currency_id or None

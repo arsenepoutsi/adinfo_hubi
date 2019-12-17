@@ -139,7 +139,7 @@ class HubiSaleOrderLine(models.Model):
     date_dluo = fields.Date(string="DLUO Date",store=True, compute='_compute_dluo')   
     etiquette_product = fields.Boolean(string="Product label", related='product_id.etiquette')
    
-    @api.multi
+    #@api.multi
     def invoice_line_create(self, invoice_id, qty):
         #invoice_line_vals = super(HubiSaleOrder, self)._prepare_invoice_line(qty=qty)
         invoice_line_vals = super(HubiSaleOrderLine, self).invoice_line_create(invoice_id, qty)
@@ -149,7 +149,7 @@ class HubiSaleOrderLine(models.Model):
         })
         return invoice_line_vals  
     
-    @api.multi
+    #@api.multi
     def print_label(self):
         #self.filtered(lambda s: s.state == 'draft').write({'state': 'sent'})
         #return self.env.ref('hubi.report_orderline_label').report_action(self)
@@ -163,7 +163,7 @@ class HubiSaleOrderLine(models.Model):
             
         return action
     
-    @api.multi
+    #@api.multi
     def validation(self, fields):
         #Lorsque l'on appuie sur le bouton, la ligne n'est plus affichée sur la page
         self.update({
@@ -173,7 +173,7 @@ class HubiSaleOrderLine(models.Model):
             })
         return
  
-    @api.multi
+    #@api.multi
     def _compute_date_sending(self):
         for line in self:
             #line.sending_date = line.order_id.sending_date
@@ -185,7 +185,7 @@ class HubiSaleOrderLine(models.Model):
 class HubiSaleOrder(models.Model):
     _inherit = "sale.order"
 
-    @api.multi
+    #@api.multi
     def action_search_products(self):
         self.ensure_one()
         ir_model_data = self.env['ir.model.data']
@@ -277,7 +277,7 @@ class HubiSaleOrder(models.Model):
         }
     
      
-    @api.multi
+    #@api.multi
     def action_print_label(self):
         sale_order_ids = self.env['wiz_sale_order_print_label'].browse(self._ids)
         res = sale_order_ids.load_order_line('order')
@@ -288,7 +288,7 @@ class HubiSaleOrder(models.Model):
          
         return action  
 
-    @api.one
+    #@api.one
     @api.depends('company_id')
     def _calcul_lot(self):
         val_calcul_lot = 'M'
@@ -311,7 +311,7 @@ class HubiSaleOrder(models.Model):
 
 
 
-    @api.multi
+    #@api.multi
     @api.onchange('partner_id')
     def onchange_partner_id_shipper(self):
         """
@@ -333,7 +333,7 @@ class HubiSaleOrder(models.Model):
         #    values['shipper_id'] = self.partner_id.shipper_id and self.partner_id.shipper_id.id or False
         self.update(values)
         
-    @api.multi
+    #@api.multi
     def action_invoice_create(self, grouped=False, final=False, dateInvoice=False):
         """
         Create the invoice associated to the SO.
@@ -456,7 +456,7 @@ class HubiSaleOrder(models.Model):
                 subtype_id=self.env.ref('mail.mt_note').id)
         return [inv.id for inv in invoices.values()]  
 
-    @api.multi
+    #@api.multi
     def _prepare_invoice(self,):
         invoice_vals = super(HubiSaleOrder, self)._prepare_invoice()
         invoice_vals.update({
@@ -465,12 +465,12 @@ class HubiSaleOrder(models.Model):
         })
         return invoice_vals     
      
-    @api.multi
+    #@api.multi
     def print_quotation(self):
         self.filtered(lambda s: s.state == 'draft').write({'state': 'sent'})
         return self.env.ref('hubi.action_report_saleorder_hubi').report_action(self)
     
-    @api.multi
+    #@api.multi
     def action2_palletization2(self):
         action = self.env.ref('hubi.action_hubi_palletization').read()[0]
         action['views'] = [(self.env.ref('hubi.hubi_palletization_form').id, 'form')]
@@ -479,7 +479,7 @@ class HubiSaleOrder(models.Model):
         return action
         #return {'type': 'ir.actions.act_window_close'} 
         
-    @api.multi
+    #@api.multi
     def check_limit(self):
         self.ensure_one()
         partner = self.partner_id
@@ -505,14 +505,14 @@ class HubiSaleOrder(models.Model):
             partner.write({'credit_limit': credit - debit + self.amount_total})
         return True
 
-    @api.multi
+    #@api.multi
     def action_confirm(self):
         res = super(HubiSaleOrder, self).action_confirm()
         for order in self:
             order.check_limit()
         return res        
     
-    @api.multi
+    #@api.multi
     def sale_order_send_email(self):
         #raise UserError(_('Send email.'))
         attachments_ids = []
@@ -584,7 +584,7 @@ class HubiSaleOrder(models.Model):
                 if msg_id:
                     mail_mail_obj.send(msg_id) 
     
-    @api.multi                
+    #@api.multi
     def update_sale_batch_number(self):
         if self.sending_date:
             _nolot =''

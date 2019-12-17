@@ -16,7 +16,7 @@ class Wizard_productprice(models.TransientModel):
     pricelist_ids = fields.Many2many("product.pricelist")
     message = fields.Text(string="Information")
     
-    @api.multi
+    #@api.multi
     def create_price_item_old(self):
         #pricelist = self.env['product.pricelist'].browse(context['active_ids'])[0]
         pricelist_ids = self.env.context.get('active_ids', [])
@@ -57,7 +57,7 @@ class Wizard_productprice(models.TransientModel):
                 "res_model":"wiz.productprice"                
                 }
 
-    @api.multi
+    #@api.multi
     def create_price_item(self):
         #'fixed_price':_('0'),
         pricelist_ids = self.env.context.get('active_ids', [])
@@ -125,7 +125,7 @@ class Wizard_productprice(models.TransientModel):
                 }
 
     
-    @api.model
+    #@api.model
     def default_get(self, fields):
         
         res = super(Wizard_productprice, self).default_get(fields)

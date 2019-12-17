@@ -13,7 +13,7 @@ class HubiSaleAdvancePaymentInv(models.TransientModel):
     date_invoice = fields.Date(string="Invoice Date", default=lambda self: fields.Date.today())   
      
             
-    @api.multi
+    #@api.multi
     def create_invoices(self):
         context = dict(self.env.context)
         sale_orders = self.env['sale.order'].browse(self._context.get('active_ids', []))
@@ -85,16 +85,16 @@ class Wizard_create_invoice_period(models.TransientModel):
         return datetime.date(year,month,day)
 
 
-    @api.model
+    #@api.model
     def _default_start(self):
         return fields.Date.context_today(self)
 
-    @api.model
+    #@api.model
     def _default_finish(self):
         finish = datetime.today() + timedelta(days=7)
         return fields.Date.context_today(self, timestamp=finish)
     
-    @api.model
+    #@api.model
     @api.onchange('periodicity_invoice')
     def onchange_periodicity_invoice(self):
         finish = datetime.today()
@@ -123,7 +123,7 @@ class Wizard_create_invoice_period(models.TransientModel):
     sale_order_ids = fields.Many2many("sale.order")
     message = fields.Text(string="Information")
    
-    @api.multi
+    #@api.multi
     def create_invoice_period(self):  
         date_fin = datetime.strptime(self.date_end, "%Y-%m-%d")  + timedelta(hours=25) + timedelta(minutes=59) + timedelta(seconds=59)
         query_args = {'periodicity_invoice': self.periodicity_invoice,'date_start' : self.date_start,'date_end' : date_fin}

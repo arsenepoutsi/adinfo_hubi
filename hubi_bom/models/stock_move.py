@@ -74,7 +74,7 @@ class StockMove(models.Model):
         for move in self:
             move.is_done = (move.state in ('done', 'cancel'))
 
-    @api.model
+    #@api.model
     def default_get(self, fields_list):
         defaults = super(StockMove, self).default_get(fields_list)
         if self.env.context.get('default_raw_material_production_id'):

@@ -85,7 +85,7 @@ class WizCreateProductFromCategory(models.TransientModel):
            self._cr.execute("UPDATE wiz_create_product_from_category SET  etiq_printer=%s WHERE id=%s", (label_printer, origin_line.id,))
            self.env.cr.commit()       
         
-    @api.multi
+    #@api.multi
     def create_product(self):
         #create the product from the category
         self.env.cr.commit()

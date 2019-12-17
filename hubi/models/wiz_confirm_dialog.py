@@ -12,13 +12,13 @@ class Wizard_confirm_dialog(models.TransientModel):
     confirm_message = fields.Text(string="Information")
     code_message = fields.Text(string="Code Message")
     
-    @api.multi
+    #@api.multi
     def wiz_update_sale_batch_number(self):
         sale_ids = self.env['sale.order'].browse(self._context.get('active_ids', []))
         sale_ids.update_sale_batch_number()
 
     
-    @api.multi
+    #@api.multi
     def wiz_update_product_etiq(self):
         prod_ids = self.env['product.template'].browse(self._context.get('active_ids', []))
         prod_ids.update_product_etiq()
@@ -50,7 +50,7 @@ class Wizard_confirm_dialog(models.TransientModel):
         
         #return {'type': 'ir.actions.act_window_close'}
 
-    @api.multi
+    #@api.multi
     def wiz_create_credit_note(self):
         invoice_ids = self.env['wiz.creditnote'].browse(self._context.get('active_ids', []))
         res = invoice_ids.create_credit_note()
@@ -80,7 +80,7 @@ class Wizard_confirm_dialog(models.TransientModel):
         else:    
             return {'type': 'ir.actions.act_window_close'}
         
-    @api.multi
+    #@api.multi
     def wiz_prepare_order_line_print_label(self):
         sale_order_ids = self.env['wiz_sale_order_print_label'].browse(self._context.get('active_ids', []))
         res = sale_order_ids.load_order_line('order')

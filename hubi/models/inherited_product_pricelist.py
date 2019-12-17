@@ -24,7 +24,7 @@ class HubiProductPriceListItem(models.Model):
     def _default_is_Visible(self, valeur):
         return tools_hubi._default_is_Visible_class(self,valeur) 
 
-    @api.one
+    #@api.one
     @api.depends('categ_id', 'product_tmpl_id', 'product_id', 'pricelist_id')
     def _get_pricelistitem_info(self):
         if self.categ_id:
@@ -83,7 +83,7 @@ class HubiProductPriceListItem(models.Model):
         else:
             self.info_price = _("")
             
-    @api.one
+    #@api.one
     @api.depends('categ_id', 'product_tmpl_id', 'product_id', 'pricelist_id')
     def _get_default_price(self):
         if self.categ_id:
@@ -98,13 +98,13 @@ class HubiProductPriceListItem(models.Model):
         else:
             self.default_price = '0'   
 
-    @api.one
+    #@api.one
     @api.depends('product_tmpl_id', 'product_id')
     def _get_weight(self):
         products_templ = self.env['product.template'].search([('id', '=', self.product_tmpl_id.id)])            
         self.weight = ("%s") % (products_templ.weight)
 
-    @api.one
+    #@api.one
     def _compute_price_weight(self):
         if self.weight != 0:
             self.price_weight = self.fixed_price / self.weight
@@ -112,7 +112,7 @@ class HubiProductPriceListItem(models.Model):
             self.price_weight = self.fixed_price
         self.price_weight = round(self.price_weight ,3)
         
-    @api.one
+    #@api.one
     def _compute_price_total(self):
         if self.price_weight != 0:
             self.fixed_price = self.price_weight * self.weight

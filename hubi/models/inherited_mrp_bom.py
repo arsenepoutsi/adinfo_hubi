@@ -4,7 +4,7 @@ from odoo import models, fields, api, _
 class HubiMrpBom(models.Model):
     _inherit = "mrp.bom"
  
-    @api.one
+    #@api.one
     @api.depends('product_tmpl_id', 'product_id')
     def _get_display_name(self):
         if self.product_tmpl_id:

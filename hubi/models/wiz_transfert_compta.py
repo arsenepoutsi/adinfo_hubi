@@ -28,18 +28,18 @@ class Wizard_transfert_compta(models.TransientModel):
         return datetime.date(year,month,day)
 
 
-    @api.model
+    #@api.model
     def _default_start(self):
         #return fields.Date.context_today(self)
         start = datetime.today() + timedelta(days=-7)
         return fields.Date.context_today(self, timestamp=start)
 
-    @api.model
+    #@api.model
     def _default_finish(self):
         finish = datetime.today() + timedelta(days=7)
         return fields.Date.context_today(self, timestamp=finish)
     
-    @api.model
+    #@api.model
     def _get_values(self, valeur):
         """
         Return values for the fields 
@@ -413,7 +413,7 @@ class Wizard_transfert_compta(models.TransientModel):
             'listrow': listrow,
         }    
         
-    @api.multi
+    #@api.multi
     def transfert_compta(self, **kw):  
         #s = s[ beginning : beginning + LENGTH]
         date_d =  self.date_start[0:4] + self.date_start[5:7] + self.date_start[8:10] 
@@ -663,7 +663,7 @@ class Wizard_transfert_compta(models.TransientModel):
             return action_writing
            
             
-    @api.multi
+    #@api.multi
     def transfert_compta_folder(self, **kw):  
         #s = s[ beginning : beginning + LENGTH]
         date_d =  self.date_start[0:4] + self.date_start[5:7] + self.date_start[8:10] 
@@ -995,7 +995,7 @@ class Wizard_transfert_compta(models.TransientModel):
 
 
 
-    @api.multi
+    #@api.multi
     def send_mail_template_old(self):   
     # Find the e-mail template
  #       template = self.env.ref('hubi.Accounting_transfer')

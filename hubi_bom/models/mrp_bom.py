@@ -129,7 +129,7 @@ class MrpBom(models.Model):
             raise UserError(_('You can not delete a Bill of Material with running manufacturing orders.\nPlease close or cancel it first.'))
         return super(MrpBom, self).unlink()
 
-    @api.model
+    #@api.model
     def _bom_find_domain(self, product_tmpl=None, product=None, picking_type=None, company_id=False, bom_type=False):
         if product:
             if not product_tmpl:
@@ -149,7 +149,7 @@ class MrpBom(models.Model):
         # order to prioritize bom with product_id over the one without
         return domain
 
-    @api.model
+    #@api.model
     def _bom_find(self, product_tmpl=None, product=None, picking_type=None, company_id=False, bom_type=False):
         """ Finds BoM for particular product, picking and company """
         if product and product.type == 'service' or product_tmpl and product_tmpl.type == 'service':
@@ -217,7 +217,7 @@ class MrpBom(models.Model):
 
         return boms_done, lines_done
 
-    @api.model
+    #@api.model
     def get_import_templates(self):
         return [{
             'label': _('Import Template for Bills of Materials'),

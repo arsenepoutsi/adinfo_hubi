@@ -39,7 +39,7 @@ class MrpBomCost(models.AbstractModel):
                 product_lines += [product_line]
         return product_lines
 
-    @api.model
+    #@api.model
     def get_report_values(self, docids, data=None):
         boms = self.env['mrp.bom'].browse(docids)
         res = self.get_lines(boms)

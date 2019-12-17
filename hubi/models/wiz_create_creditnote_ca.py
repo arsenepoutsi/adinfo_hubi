@@ -20,21 +20,21 @@ class Wizard_prepare_creditnote_ca(models.TransientModel):
         return datetime.date(year,month,day)
 
 
-    @api.model
+    #@api.model
     def _default_start(self):
         return fields.Date.context_today(self)
 
-    @api.model
+    #@api.model
     def _default_finish(self):
         finish = datetime.today() + timedelta(days=7)
         return fields.Date.context_today(self, timestamp=finish)
     
-    @api.model
+    #@api.model
     def _default_product_id(self):
         product_id = self.env['ir.config_parameter'].sudo().get_param('hubi.default_discount_ca_product_id')
         return self.env['product.product'].browse(int(product_id))
     
-    @api.model
+    #@api.model
     @api.onchange('periodicity_creditnote')
     def onchange_periodicity_creditnote(self):
         finish = datetime.today()
@@ -64,8 +64,8 @@ class Wizard_prepare_creditnote_ca(models.TransientModel):
      
     message = fields.Text(string="Information")
    
-    @api.model
-    @api.multi
+    #@api.model
+    #@api.multi
     def action_view_prepare_creditnote(self):
         #invoices = self.mapped('invoice_ids')
         #action = self.env.ref('account.action_invoice_tree1').read()[0]
@@ -92,7 +92,7 @@ class Wizard_prepare_creditnote_ca(models.TransientModel):
             
         return action  
    
-    @api.multi
+    #@api.multi
     def prepare_creditnote_ca(self):  
         self._cr.execute("DELETE FROM wiz_creditnote WHERE create_uid=%s", (self.env.user.id,))
         self.env.cr.commit()
@@ -178,7 +178,7 @@ class Wizard_create_creditnote_ca(models.Model):
     origin_id = fields.Integer('Origin')
     creditnote_ok = fields.Boolean('OK', default=False)
     
-    @api.multi
+    #@api.multi
     def create_credit_note(self):
         context = dict(self._context or {})
         active_ids = context.get('active_ids', []) or []

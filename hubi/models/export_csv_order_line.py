@@ -28,7 +28,7 @@ class sale_order_export_line(models.Model):
     #                                    [('Content-Type', 'application/octet-stream'),
     #                                     ('Content-Disposition', 'attachment; filename="%s"'%(filename))])
 
-    @api.multi
+    #@api.multi
     def export_lines_to_csv(self):
         return {
             'type' : 'ir.actions.act_url',
@@ -36,7 +36,7 @@ class sale_order_export_line(models.Model):
             'target': 'blank',
         }
 
-    @api.model
+    #@api.model
     def _csv_download_data(self,vals):
         order_id = vals.get('order_id')
         partner_name = vals.get('partner_name')
@@ -62,7 +62,7 @@ class sale_order_export_line(models.Model):
 
         return csv
 	
-    @api.model
+    #@api.model
     def _csv_download(self,vals):
         #query_args = {'id': self.id}
         query_args = {'id': vals['order_id']}

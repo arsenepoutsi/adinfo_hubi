@@ -36,8 +36,8 @@ class wizard_sale_order_print_label(models.Model):
     carrier_id = fields.Integer(string="Carrier ID")
     date_dluo = fields.Date(string="DLUO Date")
     
-    @api.model
-    @api.multi
+    #@api.model
+    #@api.multi
     def action_view_sale_order_line_print_label(self):
         query = """SELECT id FROM wiz_sale_order_print_label"""
         self.env.cr.execute(query)
@@ -51,7 +51,7 @@ class wizard_sale_order_print_label(models.Model):
             
         return action  
 
-    @api.multi
+    #@api.multi
     def update_wiz_table(self):
         line_id = getattr(self, '_origin', self)._ids[0]
         packaging_date = self.packaging_date
@@ -93,7 +93,7 @@ class wizard_sale_order_print_label(models.Model):
     def _onchange_order_line_print_label(self):
         self.update_wiz_table()
 
-    @api.multi
+    #@api.multi
     def load_order_line(self, origin):
         user = self.env.user.id      
         self.delete_table_temp(user)        
@@ -224,7 +224,7 @@ class wizard_sale_order_print_label(models.Model):
         #return {'type': 'ir.actions.act_window_close'}
     
     
-    @api.multi
+    #@api.multi
     def print_label_from_order_old(self):
         #self.update_wiz_table()
         self.env.cr.commit()
@@ -242,7 +242,7 @@ class wizard_sale_order_print_label(models.Model):
         return self.ids
         #return {'type': 'ir.actions.act_window_close'}
 
-    @api.multi
+    #@api.multi
     def print_label_from_order(self):
         self.env.cr.commit()
 
@@ -259,7 +259,7 @@ class wizard_sale_order_print_label(models.Model):
            
         return self.ids
     
-    @api.multi
+    #@api.multi
     def print_line_old(self,id):
         query = """SELECT to_char(sl.packaging_date,'DD/MM/YYYY'),to_char(sl.sending_date,'DD/MM/YYYY'),pt.etiq_description,sl.caliber_name,sl.packaging_name,
                     pt.etiq_mention, 
@@ -305,13 +305,13 @@ class wizard_sale_order_print_label(models.Model):
                     
                 ctrl_print.printlabelonwindows(printer,labelFile,'[',informations)    
         
-    @api.multi
+    #@api.multi
     def print_line(self,id):  
         nom_table = "wiz_sale_order_print_label"
         tools_hubi.prepareprintlabel(self, nom_table, id)
         #return {'type': 'ir.actions.act_window_close'} 
             
-    @api.multi
+    #@api.multi
     def delete_table_temp(self, user):
         query = "DELETE FROM wiz_sale_order_print_label WHERE create_uid=" + str(user)
         self.env.cr.execute(query)

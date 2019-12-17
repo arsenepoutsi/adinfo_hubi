@@ -13,7 +13,7 @@ class HubiModule_option(models.Model):
         domain.append(('id', 'in', companies.ids))    
         return domain
     
-    @api.model
+    #@api.model
     def _get_company(self):
         return self.env.user.company_id
 
@@ -28,7 +28,7 @@ class HubiModule_option(models.Model):
     ('uniq_id', 'unique(name, company_id)', 'A module_option already exists with this code in this company. It must be unique !'),
     ]
     
-    @api.multi
+    #@api.multi
     @api.constrains('company_id')
     def _check_company(self):
         if (self.company_id not in self.env.user.company_ids): 

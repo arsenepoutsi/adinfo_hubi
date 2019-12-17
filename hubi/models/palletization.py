@@ -37,11 +37,11 @@ class HubiPalletization(models.Model):
     #        res['domain'] = {'input_pallet_id': [('order_id', '=', order_number)]}
     #    return res
 
-    @api.one
+    #@api.one
     def _default_qty(self):
         self.default_pallet_qty = self.product_id.default_pallet_qty
  
-    @api.one
+    #@api.one
     def _residual_qty(self):
         #qty_p = self.pallet_qty  or 0
         #qty_o = self.uom_qty or 0
@@ -380,7 +380,7 @@ class HubiSaleOrderPalletization(models.Model):
                   
                     
                     
-    @api.multi
+    #@api.multi
     def action_palletization(self):
         self.env.cr.commit()
         self.create_pallet()  

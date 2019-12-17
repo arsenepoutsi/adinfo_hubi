@@ -197,7 +197,7 @@ class Wizard_create_print_label(models.TransientModel):
     date_dluo = fields.Date(string="DLUO Date", store=True, compute='_compute_dluo')
     message = fields.Text(string="Information")
    
-    @api.multi
+    #@api.multi
     def create_print_label_old(self):  
         self.env.cr.commit()
         query = """SELECT to_char(sl.packaging_date,'DD/MM/YYYY'), to_char(sl.sending_date,'DD/MM/YYYY'), pt.etiq_description, hfc.name, hfp.name,
@@ -251,7 +251,7 @@ class Wizard_create_print_label(models.TransientModel):
 
         return {'type': 'ir.actions.act_window_close'} 
     
-    @api.multi
+    #@api.multi
     def create_print_label(self):  
         self.env.cr.commit()
         no_id = self.id

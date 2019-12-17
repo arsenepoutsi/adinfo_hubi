@@ -13,7 +13,7 @@ class wizard_printlabelsale(models.TransientModel):
     label_id = fields.Many2one("miadi_etiquette.labelmodel", required=True)
     #message = fields.Text(string="Information")
     
-    @api.multi
+    #@api.multi
     def print_label(self):
         #FP20190318 avant .file
         #printerName = "\\\\" + self.printer_id.adressIp + "\\" + self.printer_id.realName

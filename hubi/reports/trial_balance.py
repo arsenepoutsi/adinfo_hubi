@@ -103,7 +103,7 @@ class TrialBalanceReportPartner(models.TransientModel):
     currency_name = fields.Char()
     final_balance = fields.Float(digits=(16, 2))
 
-    @api.model
+    #@api.model
     def _generate_order_by(self, order_spec, query):
         """Custom order to display "No partner allocated" at last position."""
         return """
@@ -124,7 +124,7 @@ class TrialBalanceReportCompute(models.TransientModel):
 
     _inherit = 'report_trial_balance_qweb'
 
-    @api.multi
+    #@api.multi
     def print_report(self, xlsx_report=False):
         self.ensure_one()
         self.compute_data_for_report()

@@ -15,7 +15,7 @@ class WizSearchProduct(models.TransientModel):
     ('uniq_order', 'unique(order_id)', 'A wiz already exists with this sale order. It must be unique !'),
     ]
       
-    @api.multi
+    #@api.multi
     def search_product(self):
 
         sale_order_ids = self.env.context.get('active_ids', [])
@@ -159,7 +159,7 @@ class WizSearchProductLine(models.TransientModel):
         self._cr.execute("UPDATE wiz_search_product_line SET  price_unit=%s WHERE id=%s", (self.price_unit,origin_line.id,))
         self.env.cr.commit()   
         
-    @api.multi
+    #@api.multi
     def update_sale(self):
         #update sale line depending on the price list
         #origin_line = getattr(self, '_origin', self)

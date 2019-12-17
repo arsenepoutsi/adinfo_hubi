@@ -86,7 +86,7 @@ class HubiInheritedProductTemplate(models.Model):
     is_etiq_prod_lib_espagnol=fields.Boolean(string='is_ETIQ_PROD_LIB_ESPAGNOL', compute='_is_Visible', default=lambda self: self._default_is_Visible('ETIQ_PROD_LIB_ESPAGNOL'))
     is_etiq_prod_lib_latin=fields.Boolean(string='is_ETIQ_PROD_LIB_LATIN', compute='_is_Visible', default=lambda self: self._default_is_Visible('ETIQ_PROD_LIB_LATIN'))
 
-    @api.multi
+    #@api.multi
     def name_get(self):
  
         res = super(HubiInheritedProductTemplate, self).name_get()
@@ -159,7 +159,7 @@ class HubiInheritedProductTemplate(models.Model):
                         
 
         
-    @api.multi
+    #@api.multi
     def update_product_etiq(self):
         context = dict(self._context or {})
         active_ids = context.get('active_ids', []) or []
@@ -192,7 +192,7 @@ class HubiInheritedProductTemplate(models.Model):
         
         return {'type': 'ir.actions.act_window_close'}
 
-    @api.multi
+    #@api.multi
     @api.constrains('company_id')
     def _check_company(self):
         if (self.company_id not in self.env.user.company_ids): 
@@ -215,7 +215,7 @@ class HubiInheritedProductCategory(models.Model):
     nb_day_dluo = fields.Integer(string='Number day DLUO', default=0)
     
     
-    @api.multi
+    #@api.multi
     def action_create_products(self):
         self.ensure_one()
         ir_model_data = self.env['ir.model.data']

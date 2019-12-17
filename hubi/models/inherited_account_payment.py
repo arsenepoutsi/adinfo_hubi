@@ -5,7 +5,7 @@ class HubiAccountPaymentMode(models.Model):
     _name = "hubi.payment_mode"
     _description = "Payment Mode"  
 
-    @api.model
+    #@api.model
     def _get_company(self):
         return self.env.user.company_id
     

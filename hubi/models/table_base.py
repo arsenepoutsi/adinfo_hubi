@@ -35,7 +35,7 @@ class HubiFamily(models.Model):
     #    return self._context.get('force_company', self.env.user.company_id.id)
 
     
-    @api.multi
+    #@api.multi
     @api.onchange('level_partner', 'level_product')
     @api.depends('main_level')
     def change_level(self):
@@ -45,7 +45,7 @@ class HubiFamily(models.Model):
             self.level = self.level_product
 
  
-    @api.multi
+    #@api.multi
     @api.depends('main_level')
     def _return_level(self):
         if not self.main_level:
@@ -61,7 +61,7 @@ class HubiFamily(models.Model):
         domain.append(('id', 'in', companies.ids))    
         return domain
     
-    @api.model
+    #@api.model
     def _get_company(self):
         return self.env.user.company_id
     
@@ -83,7 +83,7 @@ class HubiFamily(models.Model):
     weight = fields.Float('Weight')
     company_id = fields.Many2one('res.company', string='Company', default=_get_company, domain=lambda self: self._get_company_domain(), required=True)
 
-    @api.multi
+    #@api.multi
     @api.constrains('company_id')
     def _check_company(self):
         if (self.company_id not in self.env.user.company_ids): 

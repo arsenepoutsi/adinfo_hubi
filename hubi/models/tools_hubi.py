@@ -3,7 +3,7 @@
 from odoo import models, fields, api
 from ..controllers import ctrl_print
 
-@api.model
+#@api.model
 def _default_is_Visible_class(self, valeur): 
     retour = False
     option=self.env['hubi.module_option']
@@ -13,7 +13,7 @@ def _default_is_Visible_class(self, valeur):
         retour = check.state
     return retour
 
-@api.one    
+#@api.one
 def _is_Visible_class(self, origin):
     # Product
     if origin == 'Product':
@@ -208,7 +208,7 @@ def mid(aString, startChar, howMany):
     else:
         return aString[startChar:startChar+howMany]
     
-@api.model
+#@api.model
 def prepareprintlabel(self, nom_table, id_table):
         #FP20190318 Remplacement l.file par l.text et sl.pds par case ...sl.pds / sl.qte end
         query = """SELECT to_char(sl.packaging_date,'DD/MM/YYYY'), to_char(sl.sending_date,'DD/MM/YYYY'), 

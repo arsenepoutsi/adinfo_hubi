@@ -55,7 +55,7 @@ class Wizard_GeneralSettings(models.TransientModel):
     calcul_lot = fields.Selection([('M', 'Manual'), ('AMJ', 'Auto AAAAMMJJ'), ('AQ', 'Auto AAAAQQQ')], string="Batch Number Calculation", default=lambda self: self._get_values('calcul_lot'))
     mail_accounting = fields.Boolean(string="Send Email", default=lambda self: self._get_values('mail_accounting'))
 
-    @api.model
+    #@api.model
     def _get_values(self, valeur):
         """
         Return values for the fields 
@@ -148,7 +148,7 @@ class Wizard_GeneralSettings(models.TransientModel):
                                     
         return retour
 
-    @api.multi
+    #@api.multi
     def execute_update(self):
         #self.ensure_one()
         
@@ -208,7 +208,7 @@ class Wizard_GeneralSettings(models.TransientModel):
         
         #return {'type': 'ir.actions.act_window_close'} 
         
-    @api.multi
+    #@api.multi
     def cancel_old(self):
         # ignore the current record, and send the action to reopen the view
         actions = self.env['ir.actions.act_window'].search([('res_model', '=', self._name)], limit=1)

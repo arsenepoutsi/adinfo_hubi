@@ -7,7 +7,7 @@ from odoo import models, fields, api, _
 class InvoiceStockMove(models.Model):
     _inherit = 'account.invoice'
 
-    @api.model
+    #@api.model
     def _default_picking_receive(self):
         type_obj = self.env['stock.picking.type']
         company_id = self.env.context.get('company_id') or self.env.user.company_id.id
@@ -16,7 +16,7 @@ class InvoiceStockMove(models.Model):
             types = type_obj.search([('code', '=', 'incoming'), ('warehouse_id', '=', False)])
         return types[:1]
 
-    @api.model
+    #@api.model
     def _default_picking_transfer(self):
         type_obj = self.env['stock.picking.type']
         company_id = self.env.context.get('company_id') or self.env.user.company_id.id
@@ -44,7 +44,7 @@ class InvoiceStockMove(models.Model):
     ], string='Status', index=True, readonly=True, default='draft',
         track_visibility='onchange', copy=False)
 
-    @api.multi
+    #@api.multi
     def action_stock_receive(self):
         for order in self:
             if not order.invoice_line_ids:
@@ -66,7 +66,7 @@ class InvoiceStockMove(models.Model):
                 move_ids = moves._action_confirm()
                 move_ids._action_assign()
 
-    @api.multi
+    #@api.multi
     def action_stock_transfer(self):
         for order in self:
             if not order.invoice_line_ids:
@@ -88,7 +88,7 @@ class InvoiceStockMove(models.Model):
                 move_ids = moves._action_confirm()
                 move_ids._action_assign()
 
-    @api.multi
+    #@api.multi
     def action_view_picking(self):
         action = self.env.ref('stock.action_picking_tree_ready')
         result = action.read()[0]
@@ -106,7 +106,7 @@ class InvoiceStockMove(models.Model):
 class SupplierInvoiceLine(models.Model):
     _inherit = 'account.invoice.line'
 
-    @api.multi
+    #@api.multi
     def _create_stock_moves(self, picking):
         moves = self.env['stock.move']
         done = self.env['stock.move'].browse()
