@@ -1,0 +1,6 @@
+"id","name","reference","parent_id/id","property_account_expense_categ_id/id","property_account_income_categ_id/id","shell"
+"product.product_category_all","Huîtres","H","","l10n_fr.1_pcg_6071","l10n_fr.1_pcg_7071","True"
+"product.product_category_1","Fines","HF","product.product_category_all","l10n_fr.1_pcg_6071","l10n_fr.1_pcg_7071","True"
+"__export__.product_category_3_7fc0e75b","Moules","M","","l10n_fr.1_pcg_6071","l10n_fr.1_pcg_7071","True"
+"__export__.product_category_4_72e2c6e6","Divers","D","","l10n_fr.1_pcg_6071","l10n_fr.1_pcg_7071","True"
+"__export__.product_category_5_4b4b3ff7","Caviar","CA","","l10n_fr.1_pcg_6071","l10n_fr.1_pcg_7071","True"

@@ -1,0 +1,5 @@
+"id","name","currency_id/id","company_id/id","active","sequence"
+"__export__.product_pricelist_5_e8bc0e00","Poissonnier","base.EUR","base.main_company","True","16"
+"__export__.product_pricelist_4_cdd61c66","Restaurant","base.EUR","base.main_company","True","16"
+"__export__.product_pricelist_3_4633df0b","INTERMARCHE","base.EUR","base.main_company","True","16"
+"__export__.product_pricelist_2_967b89b4","CARREFOUR","base.EUR","base.main_company","True","16"

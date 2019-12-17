@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record id="search_product_wizard_form" model="ir.ui.view">
+		<field name="name">wiz.searchproduct.form1</field>
+		<field name="model">wiz.search.product</field>
+		<field name="arch" type="xml">
+			<form string="Search Product">
+				<div class="oe_title">
+				    
+                    <label for="order_id" />
+                    <field name="order_id" colspan="6" />
+					<label for="pricelist_id" />
+    				<field name="pricelist_id" colspan="6" />
+					
+					<separator />
+					<h2>
+                        <field name="message" colspan="6" />
+                    </h2>
+					                  
+				</div>
+				<separator />
+                <!--<field name="pricelist_line_ids" mode="tree" context="{'default_pricelist_line_id':pricelist_id,'tree_view_ref':'Price_List_Lines_form_view'}">
+                 
+                <field name="pricelist_line_ids" mode="tree" >
+                    <tree string="Price List Lines" name='Price_List_Lines'>
+                        <field name="pricelist_line_id"/>
+                        <field name="product_id"/>
+                        <field name="qty_invoiced"/>
+                        <field name="price_unit"/>
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                    </tree>   
+                  
+                </field>
+                --> 
+				<footer>
+					<button string="Return Product" type="object" name="search_product"
+						default_focus="1" />
+					<button string="Cancel" class="oe_link" special="cancel" />
+				</footer>
+			</form>
+		</field>
+	</record>
+	
+	<record id="search_product_wizard_form_step2" model="ir.ui.view">
+        <field name="name">wiz.search.product.form2</field>
+        <field name="model">wiz.search.product</field>
+        <field name="arch" type="xml">
+            <form string="Search Product">
+                <field name="id"/>
+                <field name="order_id"/>
+                <field name="pricelist_id"/>
+                <field name="message" colspan="6" readonly="1" nolabel="1" />
+                <!-->
+                <field name="pricelist_line_ids" mode="tree" editable="bottom"> 
+                        <tree string="Price List Lines" name='Price_List_Lines'>
+                        <field name="product_id"/>
+                        <field name="qty_invoiced"/>
+                        <field name="price_unit"/>
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                        </tree> 
+                </field>
+                -->
+                <footer>
+                    <button string="OK" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="Price_List_Lines_form_view" model="ir.ui.view">
+            <field name="name">price.list.lines.form.view</field>
+            <field name="priority">1</field>
+            <field name="model">wiz.search.product.line</field>
+            <field name="arch" type="xml">
+                <!--<form string="Search Product">-->
+                    <!-->
+                    <templates id="template" xml:space="preserve">
+                        <t t-extend="ListView.buttons">
+                            <t t-jquery="button.oe_list_add" t-operation="append">
+                                <button class="oe_button oe_highlight" type="button">Test</button>
+                                <button string="Cancel" class="oe_link" special="cancel" />
+                            </t>
+                        </t>
+                    </templates>
+                    -->
+                    <tree string="Price List Lines" name='Price_List_Lines' editable="top" create="false">
+                        <field name="order_line_id" invisible="1"/>
+                        <field name="pricelist_line_id" invisible="1"/>
+                        <field name="product_id" readonly="1"/>
+                        <field name="qty_invoiced"/>
+                        <field name="price_unit"/>
+                        <field name="date_start" readonly="1"/>
+                        <field name="date_end" readonly="1"/>
+                        <button string="Cancel" class="oe_link" special="cancel" icon="fa-times-circle text-danger"/>
+                        <button string="Update_Sale" type="object" name="update_sale" icon="fa-paper-plane text-success"/>
+                    </tree> 
+                    <!-->
+                    <footer>
+                        <button string="Return Product" type="object" name="search_product"  default_focus="1" />
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>-->
+            </field>
+    </record>
+
+    <record id="Price_List_Lines_search" model="ir.ui.view">
+        <field name="name">price.list.lines.search</field>
+        <field name="model">wiz.search.product.line</field>
+        <field name="arch" type="xml">
+            <search string="Search Product">
+                <!--<field name="product_id" />-->
+                <filter domain="[('caliber_id', '=', 'Caliber')]" name="caliber" string="Caliber"/>
+                <filter domain="[('category_id', '=', 'Category')]" name="category" string="Category"/>             
+                <separator/>                
+                <group expand="0" string="Group by">
+                    <filter context="{'group_by':'category_id'}" domain="[]" string="Category"/>
+                    <filter context="{'group_by':'caliber_id'}" domain="[]" string="Caliber"/>
+                </group>               
+            </search>
+        </field>
+    </record>
+    
+<!-->
+	<act_window
+		id="action_wiz_search_product"
+		multi="True"
+		key2="client_action_multi"
+		name="Create Price"
+		res_model="wiz.search.product"
+		src_model="sale.order"
+		view_mode="form"
+		target="new"
+		view_type="form"
+		view_id="search_product_wizard_form">	
+	</act_window>
+-->
+</odoo>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="report_account_invoice_summary">
+		<t t-call="web.html_container">
+			
+			<t t-set="ttc" t-value="0"/> 
+			<t t-set="ht" t-value="0"/>
+			<t t-set="tva" t-value="0"/>
+			
+			<t t-set="total_ttc" t-value="0"/> 
+            <t t-set="total_ht" t-value="0"/>
+            <t t-set="total_tva" t-value="0"/>
+            
+			<t t-set="client" t-value="0"/>
+			<t t-set="nom_client" t-value="0"/>
+			<t t-set="symbole" t-value="0"/>
+			<t t-set="docs_sorted" t-value="docs.sorted(key=lambda a:(a.partner_id.id))"/>
+			    
+			<t t-call="web.external_layout">
+				<div class="page">
+					<h2>Account summary</h2>
+					<table class="table table-bordered">
+					    <thead>
+                            <tr>
+                                <th>Partner Name</th>
+                                <th>Id</th>
+                                <th>Number</th>
+                                <th>Date</th>
+                                <th>Date Due</th>
+                                <th>TTC</th>
+                                <th>HT</th>
+                                <th>TVA</th>
+                            </tr>
+					    </thead>
+                    
+                        <tbody>
+                            <t t-foreach="docs_sorted" t-as="invoice">
+                                <t t-set="nom_client" t-value="invoice.commercial_partner_id.name + ', ' + invoice.partner_id.name"/>
+                                <tr>
+                                    <t t-if="invoice.partner_id.id != client and client !=0  ">
+                                        <td colspan="5" class="text-right"><strong>TOTAL :   <span t-esc="nom_client"/></strong> </td> 
+                                        <td class="text-right">
+                                            <!--<span  t-esc="ttc" t-options='{"widget": "monetary", "display_currency": invoice.currency_id.symbol}'/>-->
+                                            <span t-esc="'%.2f'%(ttc)"/> <span t-field="invoice.company_id.currency_id.symbol" />
+                                        </td> 
+                                        <td class="text-right"><span t-esc="'%.2f'%(ht)"/> <span t-field="invoice.company_id.currency_id.symbol" /></td>
+                                        <td class="text-right"><span t-esc="'%.2f'%(tva)"/> <span t-field="invoice.company_id.currency_id.symbol" /></td>
+                                        
+                                        <t t-set="ttc" t-value="0"/> 
+                                        <t t-set="ht" t-value="0"/>
+                                        <t t-set="tva" t-value="0"/>
+                                    </t>  
+                                </tr> 
+                                <tr>
+                                    <t t-if="invoice.partner_id.id != client">
+                                        <td> <span t-esc="nom_client" /></td>
+                                        <td> <span t-field="invoice.partner_id.id" /></td>
+                                    </t>
+                                    <t t-else ="">
+                                        <td></td>
+                                        <td></td>
+                                    </t>
+                                    <td> <span t-field="invoice.number" /></td>
+                                    <td> <span t-field="invoice.date_invoice" /></td>
+                                    <td> <span t-field="invoice.date_due" /></td>
+                                    <!-->
+                                    <td class="text-right"> <span t-field="invoice.amount_total_company_signed" /></td>
+                                    <td class="text-right"> <span t-field="invoice.amount_untaxed_signed" /></td>
+                                    <td class="text-right"> <span t-field="invoice.amount_tax_signed" /></td>
+                                    -->
+                                    <t t-set="_ttc" t-value="invoice.amount_total_company_signed"/>
+                                    <t t-set="_ht" t-value="invoice.amount_untaxed_signed"/>
+                                    <t t-set="_tva" t-value="invoice.amount_tax_signed"/>
+                                    
+                                    <td class="text-right"><span t-esc="'%.2f'%(_ttc)"/> <span t-field="invoice.company_id.currency_id.symbol" /></td> 
+                                    <td class="text-right"><span t-esc="'%.2f'%(_ht)"/> <span t-field="invoice.company_id.currency_id.symbol" /></td>
+                                    <td class="text-right"><span t-esc="'%.2f'%(_tva)"/> <span t-field="invoice.company_id.currency_id.symbol" /></td>
+                                    
+                                    <t t-set="ttc" t-value="ttc + invoice.amount_total_company_signed"/>
+                                    <t t-set="ht" t-value="ht + invoice.amount_untaxed_signed"/>
+                                    <t t-set="tva" t-value="tva + invoice.amount_tax_signed"/>
+
+                                    <t t-set="total_ttc" t-value="total_ttc + invoice.amount_total_company_signed"/>
+                                    <t t-set="total_ht" t-value="total_ht + invoice.amount_untaxed_signed"/>
+                                    <t t-set="total_tva" t-value="total_tva + invoice.amount_tax_signed"/>
+
+                                </tr>
+
+                                <t t-set="symbole" t-value="invoice.company_id.currency_id.symbol"/>
+                                <t t-set="client" t-value="invoice.partner_id.id"/>
+                                
+                            </t>
+                            
+                            <!-- Edition du dernier total client-->
+                            <t t-if="client != 0 ">
+                                <tr>
+                                    <td colspan="5" class="text-right" ><strong>TOTAL :   <span t-esc="nom_client"/></strong> </td> 
+                                    <td class="text-right"><span t-esc="'%.2f'%(ttc)"/> <span t-esc="symbole"/></td>
+                                    <td class="text-right"><span t-esc="'%.2f'%(ht)"/> <span t-esc="symbole"/></td>
+                                    <td class="text-right"><span t-esc="'%.2f'%(tva)"/> <span t-esc="symbole"/></td>
+                                </tr> 
+                                <tr><td colspan="8"/> </tr>
+                                <tr>
+                                    <!-- TOTAL GENERAL-->
+                                    <td colspan="5" class="text-right" ><strong>TOTAL GENERAL  : </strong> </td> 
+                                    <td class="text-right"><span t-esc="'%.2f'%(total_ttc)"/> <span t-esc="symbole"/></td> 
+                                    <td class="text-right"><span t-esc="'%.2f'%(total_ht)"/> <span t-esc="symbole"/></td>
+                                    <td class="text-right"><span t-esc="'%.2f'%(total_tva)"/> <span t-esc="symbole"/></td>
+                                </tr>
+                            </t>     
+                            
+                            
+                            
+                        </tbody>   
+                    </table>
+                    
+                 
+                    
+				</div>
+			</t>
+			
+		</t>
+	</template>
+</odoo>

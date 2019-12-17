@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="wiz_prepare_creditnote" model="ir.ui.view">
+            <field name="name">wiz.prepare.creditnote.form1</field>
+            <field name="model">wiz.prepare.creditnote</field>
+            <field name="arch" type="xml">
+                <form string="Prepare Credit Note CA">
+                    <div class="oe_title">
+                
+                        <label for="product_id" />
+                        <h2>
+                        <field name="product_id"  colspan="6" options='{"no_open": True, "no_create": True}'/>
+                        </h2>
+                        <separator />
+                        <label for="periodicity_creditnote" />
+                        <h2>
+                        <field name="periodicity_creditnote"  colspan="6" />
+                        </h2>
+                        <separator />
+                        <label for="date_start" />
+                        <h2>
+                        <field name="date_start" colspan="6" />
+                        </h2>
+                        <separator />
+                        <label for="date_end" />
+                        <h2>
+                        <field name="date_end" colspan="6" />
+                        </h2>
+                        <separator />
+                        <label for="date_creditnote" />
+                        <h2>
+                        <field name="date_creditnote" />
+                        </h2>
+   
+                    </div>
+                    <separator />
+
+                    <footer>
+                        <button string="Prepare Credit Note CA" type="object" name="prepare_creditnote_ca"
+                        default_focus="1" class="oe_link"/>
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+   
+        <record id="view_hubi_creditnote_tree" model="ir.ui.view" >
+            <field name="name">hubi.creditnote.tree</field>
+            <field name="model">wiz.creditnote</field>        
+            <field name="arch" type="xml">
+                <tree string="Invoice_report" import="false" create="false" editable="bottom" default_order="partner_id, number_invoice">
+                    <field name="partner_id" readonly="1"/>
+                    <field name="number_invoice" readonly="1"/>
+                    <field name="type_invoice" readonly="1"/>
+                    <field name="date_invoice" readonly="1"/>
+                    <!--<field name="tax_id" readonly="1"/>-->
+                    <field name="price_unit" sum="Total Weight" readonly="1"/>
+                    <field name="date_creditnote" readonly="1"/>
+                
+                    <field name="name"/>
+                    <field name="note"/>
+                    <field name="discount"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="view_hubi_creditnote_filter" model="ir.ui.view">
+            <field name="name">hubi.creditnote.filter</field>
+            <field name="model">wiz.creditnote</field>
+            <field name="arch" type="xml">
+                <search string="Search credit-note">
+                    <field name="partner_id"/>
+                    <field name="date_invoice" string="Period"/>
+                    <separator/>
+                    <filter string="Invoices" name="invoice" domain="[('type_invoice','=','F')]" />
+                    <filter string="Creditnote" name="creditnote" domain="[('type_invoice','!=','F')]" />
+                    <separator/>
+                    <filter string="Invoices with Creditnote" name="creditnote_ok_true" domain="[('creditnote_ok','=',True)]" />
+                    <filter string="Invoices without Creditnote" name="creditnote_ok" domain="[('creditnote_ok','=',False)]" />
+
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_partner_id" string="Partner" context="{'group_by':'partner_id'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <record id="action_hubi_prepare_creditnote" model="ir.actions.act_window">
+            <field name="name">Create Credit Note CA</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">wiz.prepare.creditnote</field>
+            <field name="view_type">form</field>            
+            <field name="view_id" ref="wiz_prepare_creditnote"/>        
+            <field name="view_mode">tree,form</field>
+            <field name="target">new</field>
+        </record> 
+    
+        <record id="action_creditnote_tree" model="ir.actions.act_window">
+            <field name="name">Create credit-note</field>
+            <field name="res_model">wiz.creditnote</field>
+            <field name="domain">[('creditnote_ok', '=', False)]</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_hubi_creditnote_tree"/>
+            <field name="search_view_id" ref="view_hubi_creditnote_filter"/>
+            <field name="context">{'search_default_creditnote_ok':1}</field>
+        </record>
+        
+        <act_window
+            id="action_wiz_confirm_dialog2"
+            multi="True"
+            key2="client_action_multi"
+            name="Creation Credit note"
+            res_model="wiz.confirm.dialog"
+            src_model="wiz.creditnote"
+            context="{'default_confirm_message': 'Are you sure you want to create the credit note', 
+                            'default_code_message': 'create-credit_note'}"
+            view_mode="form"
+            target="new"
+            view_type="form"
+            view_id="wiz_confirm_dialog_form">  
+        </act_window>
+    
+    </data>
+ 
+</odoo>

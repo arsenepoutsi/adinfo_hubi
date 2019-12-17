@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="pricelist_poissonnier" model="product.pricelist">
+            <field name="name">Poissonnier</field>
+            <field name="currency_id/id">base.EUR</field>
+            <field name="company_id/id">base.main_company</field>
+            <field name="active">True</field>
+            <field name="sequence">16</field>
+        </record>
+        <record id="pricelist_restaurant" model="product.pricelist">
+            <field name="name">Restaurant</field>
+            <field name="currency_id/id">base.EUR</field>
+            <field name="company_id/id">base.main_company</field>
+            <field name="active">True</field>
+            <field name="sequence">16</field>
+        </record>
+        <record id="pricelist_intermarche" model="product.pricelist">
+            <field name="name">INTERMARCHE</field>
+            <field name="currency_id/id">base.EUR</field>
+            <field name="company_id/id">base.main_company</field>
+            <field name="active">True</field>
+            <field name="sequence">16</field>
+        </record>
+        <record id="pricelist_carrefour" model="product.pricelist">
+            <field name="name">CARREFOUR</field>
+            <field name="currency_id/id">base.EUR</field>
+            <field name="company_id/id">base.main_company</field>
+            <field name="active">True</field>
+            <field name="sequence">16</field>
+        </record>
+        <record id="pricelist_leclerc" model="product.pricelist">
+            <field name="name">LECLERC</field>
+            <field name="currency_id/id">base.EUR</field>
+            <field name="company_id/id">base.main_company</field>
+            <field name="active">True</field>
+            <field name="sequence">16</field>
+        </record>
+
+
+    </data>
+</odoo>

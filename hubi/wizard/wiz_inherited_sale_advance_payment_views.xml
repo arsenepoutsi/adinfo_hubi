@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    <record id="hubi_sale_advance_payment_inv_view" model="ir.ui.view">
+        <field name="name">hubi.sale.advance.payment.inv.form</field>
+        <field name="model">sale.advance.payment.inv</field>
+        <field name="inherit_id" ref="sale.view_sale_advance_payment_inv"/>
+        <field name="arch" type="xml">
+  
+            <xpath expr="//field[@name='deposit_taxes_id']" position="after">
+                <!--<field name="date_invoice" attrs="{'invisible': [('count','&gt;',1)]}" />-->
+                <field name="date_invoice" />
+            </xpath>
+                       
+        </field>
+    </record>
+  
+    
+    <record id="wiz_create_invoiceperiod" model="ir.ui.view">
+        <field name="name">wiz.createinvoiceperiod.form1</field>
+        <field name="model">wiz.invoiceperiod</field>
+        <field name="arch" type="xml">
+            <form string="Create Invoices Period">
+                <div class="oe_title">
+                
+                    <label for="periodicity_invoice" />
+                    <h2>
+                        <field name="periodicity_invoice"  colspan="6" />
+                    </h2>
+                    <separator />
+                    <label for="date_start" />
+                    <h2>
+                        <field name="date_start" colspan="6" />
+                    </h2>
+                    <separator />
+                    <label for="date_end" />
+                    <h2>
+                        <field name="date_end" colspan="6" />
+                    </h2>
+                    <separator />
+                    <label for="date_invoice" />
+                    <h2>
+                        <field name="date_invoice" />
+                    </h2>
+                    
+                </div>
+                <separator />
+
+                <footer>
+                    <button string="Create Invoice Period" type="object" name="create_invoice_period"
+                        default_focus="1" class="oe_link"/>
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hubi_create_invoiceperiod" model="ir.actions.act_window">
+        <field name="name">Create Invoice From Periodicity</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">wiz.invoiceperiod</field>
+        <field name="view_type">form</field>            
+        <field name="view_id" ref="wiz_create_invoiceperiod"/>        
+        <field name="view_mode">tree,form</field>
+        <field name="target">new</field>
+    </record> 
+    
+    </data>
+ 
+</odoo>

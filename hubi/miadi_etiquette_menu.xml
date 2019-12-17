@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+      <!-- Top menu item -->
+    <menuitem id="menu_miadi_etiquette" name="Label" sequence="250" web_icon="hubi,static/description/iconticket.png"/>
+    <menuitem id="menu_miadi_etiquette_settings" name="Settings" sequence="10" parent="menu_miadi_etiquette"/>
+    <menuitem id="menu_miadi_etiquette_printer" name="Printers" sequence="10" parent="menu_miadi_etiquette_settings" action="action_miadi_etiquette_printer"/>
+    <menuitem id="menu_miadi_etiquette_label_model" name="Label model" sequence="20" parent="menu_miadi_etiquette_settings" action="action_miadi_etiquette_labelmodel"/>
+    <menuitem id="menu_miadi_etiquette_parameter" name="Parameters" sequence="30" parent="menu_miadi_etiquette_settings" action="action_miadi_etiquette_parameter"/>
+    <menuitem id="menu_miadi_etiquette_test" name="Test" sequence="40" parent="menu_miadi_etiquette_settings" action="action_menu_wiz_print_label"/>
+</odoo>

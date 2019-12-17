@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+	
+	<record id="view_hubi_packing_preparation_tree" model="ir.ui.view">
+		<field name="name">hubi.packing.preparation.tree</field>
+		<field name="model">sale.order.line</field>
+		<field name="arch" type="xml">
+			<tree string="Packing Preparation" import="false" create="false" default_order="done_packing, order_id, product_id" decoration-bf="done_packing == False" decoration-danger="done_packing == True" >
+				<field name="order_partner_id"/> <!--attrs="{'invisible':[('done_packing', '=', False)]}"-->
+				<field name="order_id"/>  <!--attrs="{'invisible':[('done_packing', '=', False)]}"-->
+				<field name="sending_date"/>
+				<field name="product_id"/> <!--attrs="{'invisible':[('done_packing', '=', False)]}"-->
+				<field name="product_uom_qty" string="Qty" sum="product_uom_qty"/> <!--attrs="{'invisible':[('done_packing', '=', False)]}"-->
+				<field name="weight" string="Weight" sum="weight"/>
+				<field name="done_packing"/>
+				<field name="etiquette_product" invisible = "1" />
+				<button name="print_label" type="object" string="Print Label"  attrs="{'invisible':[('etiquette_product', '=', False)]}"/>
+				<button name="validation" type="object" string="Done" attrs="{'invisible':[('done_packing', '=', True)]}"/>
+			</tree>
+		</field>
+	</record>
+	
+	<report
+		id="report_orderline_label"
+		model="account.invoice.report"
+		string="Order Lines"
+		report_type="qweb-pdf"
+		name="web.external_layout"
+		file="web.external_layout"
+		attachment_use="True"
+		attachment="(object.state in ('open','paid')) and
+        ('INV'+(object.number or '').replace('/','')+'.pdf')"
+	/>
+	
+	<record id="hubi_packing_preparation_search" model="ir.ui.view">
+        <field name="name">hubi.packing_preparation.search</field>
+        <field name="model">sale.order.line</field>
+        <field name="arch" type="xml">
+            <search string="Search Packaging">
+                <separator/>
+                <filter string="Packaging to do" name="todo" domain="[('done_packing', '=', False)]"/>
+                <filter string="Packaging already done" name="done" domain="[('done_packing', '=', True)]"/>
+            </search>    
+        </field>
+    </record>
+    
+    <!--
+    <search string="Search Sales Order">
+                    <filter string="To Invoice" domain="[('qty_to_invoice','!=', 0)]" help="Sales Order Lines ready to be invoiced"/>
+                    <separator/>
+                    <filter string="My Sales Order Lines" domain="[('salesman_id','=',uid)]" help="Sales Order Lines related to a Sales Order of mine"/>
+                    <field name="order_id"/>
+                    <field name="order_partner_id" operator="child_of"/>
+                    <field name="product_id"/>
+                    <field name="salesman_id"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Product" domain="[]" context="{'group_by':'product_id'}"/>
+                        <filter string="Order" domain="[]" context="{'group_by':'order_id'}"/>
+                        <filter string="Salesperson" domain="[]" context="{'group_by':'salesman_id'}"/>
+                    </group>
+                </search>
+    -->
+    
+	<record id="action_hubi_packing_preparation" model="ir.actions.act_window">
+        <field name="name">Packing Preparation</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_type">form</field>
+        <field name="context">{'search_default_todo':1}</field>
+        <field name="domain">[('product_uom_qty', '!=', 0)]</field>  
+        <field name="view_ids" eval="[(5, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_hubi_packing_preparation_tree')})]"/>
+    </record>
+	
+	</data>
+</odoo>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    <record id="hubi_account_invoice_form_view" model="ir.ui.view">
+        <field name="name">hubi.account.invoice.form</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_line_ids']/tree" position="attributes">
+                <attribute name="editable"/>
+                <!--<attribute name="context">{'default_order' : id}</attribute>-->
+                <attribute name="default_order">id</attribute>
+            </xpath>
+        
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="carrier_id"/>
+            </xpath>
+
+            <xpath expr="//page[@name='other_info']/group/group/field[@name='name']" position="after">
+                    <field name="sending_date" />
+                    <field name="packaging_date"/>
+                    <field name="pallet_number"/>
+            </xpath>
+            
+            <xpath expr="//page[2]" position="after">
+                <page name="note" string="Note" >
+                    <field name="comment" />
+                </page>    
+            </xpath>
+<!--            
+            <xpath expr="//field[@name='amount_untaxed']" position="before">
+                <field name="amount_before_discount" attrs="{'invisible': [('discount_rate', '=', 0)]}"/>
+                <field name="amount_discount" attrs="{'invisible': [('discount_rate', '=', 0)]}"/>
+            </xpath>
+-->            
+            <xpath expr="//field[@name='comment']" position="before">
+                <div>
+                    <label for="discount_type" string="Discount Type :"/>
+                    <field name="discount_type" class="oe_inline"/>
+                </div>
+                <div >
+                    <label for="discount_rate" string="Discount Rate :"  attrs="{'invisible': [('discount_type', '!=', 'percent')]}"/>
+                    <label for="discount_rate" string="Discount Amount :"  attrs="{'invisible': [('discount_type', '!=', 'amount')]}"/>
+                    <field name="discount_rate" class="oe_inline"/>
+                </div>
+            </xpath>
+            
+
+            
+        </field>
+    </record>
+    
+    <record id="hubi_account_invoice_tree_view" model="ir.ui.view">
+        <field name="name">hubi.account.invoice.tree</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_tree"/>
+        <field name="arch" type="xml">
+       
+            <xpath expr="//field[@name='amount_total_signed']" position="replace"></xpath>
+            <xpath expr="//field[@name='residual_signed']" position="before">
+                <field name="amount_untaxed_signed"  string="Total HT" sum="Total HT"/>
+                <field name="amount_tax_signed"  string="Tax" sum="Total Tax"/>
+                <field name="amount_total_company_signed" string="Total" sum="Total"/>
+            </xpath>
+       
+        </field>
+    </record>
+
+    <record id="hubi_account_invoice_period_search_view" model="ir.ui.view">
+        <field name="name">hubi.account.invoice.search</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='activities_my']" position="after">
+                <separator/>
+                <filter string="This Year" name="thisyear" domain="['|', ('date_invoice', '=', False), '&amp;',('date_invoice','&lt;=', time.strftime('%Y-12-31')),('date_invoice','&gt;=',time.strftime('%Y-01-01'))]" help="List invoices with period in current year"/>
+
+                <filter string="Today" name="today" domain="[('date_invoice', '&gt;=', context_today().strftime('%%Y-%%m-%%d'))]"/>
+                <filter string="This Month" name="this_month" domain="[('date_invoice', '&gt;=', context_today().strftime('%Y-%m-01'))]"/>
+                <filter string="Last Month" name="last_month" domain="['&amp;', ('date_invoice', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-01')), ('date_invoice', '&lt;', context_today().strftime('%Y-%m-01'))]"/>
+                <separator/>
+                
+            </xpath>
+            
+        </field>
+    </record>
+
+    <record id="hubi_account_invoice_search_view" model="ir.ui.view">
+        <field name="name">hubi.account.invoice.search</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter_inherit_invoices"/>
+        <field name="arch" type="xml">
+
+           <!-- <xpath expr="//filter[@name='invoices']" position="replace"> </xpath>-->
+            
+            <xpath expr="//filter[@name='draft']" position="after"> 
+                <separator/>
+                <filter name="invoices" string="Invoices" domain="[('type','in',('out_invoice','in_invoice'))]"/>
+                <filter name="refunds" string="Credit Notes" domain="[('type','in',('out_refund','in_refund'))]"/>
+                <separator/>
+            </xpath>        
+            
+        </field>
+    </record>
+         
+    <record id="account.action_invoice_tree1" model="ir.actions.act_window">
+        <field name="domain">[('type','in',['out_invoice', 'out_refund'])]</field>
+    </record>
+   
+    <record id="hubi_account_invoice_line_form_view" model="ir.ui.view">
+        <field name="name">hubi.account.invoice.form</field>
+        <field name="model">account.invoice.line</field>
+        <field name="inherit_id" ref="account.view_invoice_line_form"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//form/group/group/field[@name='product_id']" position="before">
+                <label class="oe_edit_only" for="category_id" string="Category"/>
+                <field name="category_id" class="oe_edit_only" nolabel="1"/>
+                <label class="oe_edit_only" for="caliber_id" string="Caliber"/>
+                <field name="caliber_id" class="oe_edit_only" nolabel="1"/>
+                <label class="oe_edit_only" for="packaging_id" string="Packaging"/>
+                <field name="packaging_id" class="oe_edit_only" nolabel="1"/>
+            </xpath>
+            
+            <xpath expr="//form/field[@name='name']" position="after">
+                <label for="comment"/>
+                <field name="comment"/>
+            </xpath>
+            
+        </field>
+    </record>
+    
+    <record id="action_email_invoice_send_server" model="ir.actions.server">
+            <field name="name">Email: Send email</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_account_invoice"/>
+            <field name="binding_model_id" ref="model_account_invoice"/>
+            <field name="state">code</field>
+            <field name="code">
+                if records:
+                    action = records.invoice_send_email()
+            </field>
+    </record>
+    
+    </data>
+ 
+</odoo>

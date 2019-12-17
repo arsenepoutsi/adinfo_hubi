@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_hubi_product_pricelist" model="ir.actions.act_window">
+            <field name="name">Pricelists</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.pricelist</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+
+            <field name="context">{"default_base":'list_price'}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a pricelist.
+              </p><p>
+                A price list contains rules to be evaluated in order to compute
+                the sales price of the products.
+              </p><p>
+                Each rule include a set of applicability criteria (date range,
+                product category...) and a computation that easily helps to achieve
+                any kind of pricing.
+              </p>
+            </field>
+        </record>
+        
+        <act_window
+            id="action_wiz_create_productprice2"
+            name="Create Price"
+            res_model="wiz.productprice"
+            src_model="product.pricelist"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            view_id="wiz_create_productprice_step1">    
+        </act_window>
+        
+        <record id="pricelist_hubi_form_view" model="ir.ui.view">
+            <field name="name">pricelist.hubi.form</field>
+            <field name="model">product.pricelist</field>
+            <field name="inherit_id" ref="product.product_pricelist_view"/>
+            <field eval="99" name="priority"/>
+            <field name="arch" type="xml">
+            
+            <xpath expr="//field[@name='country_group_ids']" position="replace"/>
+            <xpath expr="//form/sheet/group" position="after">
+                <group string="Shipping" name="shipping">
+                    <field name="shipping" />
+                    <field name="shipping_price_kg" attrs="{'invisible': [('shipping', '=', False)]}"/>
+                </group>
+            </xpath>
+            <!-->
+            <xpath expr="//field[@name='item_ids']/tree/field[@name='name']" position="after">
+                <field name="info_price" />
+                <field name="price_ean13" string="EAN 13"/>
+                <field name="price_color" string="Color" widget="color" />
+            </xpath>
+            -->    
+            <xpath expr="//field[@name='item_ids']" position="replace"/>
+            <xpath expr="//separator" position="after"> 
+                 <field name="item_ids" nolabel="1" context="{'default_base':'list_price'}">
+                <tree string="Pricelist Items" default_order="name">
+                    <field name="name" string="Applicable On"/>
+                    <field name="info_price" />
+                    <field name="price_ean13" string="EAN 13"/>
+                    <field name="price_color" string="Color" widget="color" />
+                    <field name="min_quantity"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                    <field name="price" string="Price"/>
+                    <field name="base" invisible="1"/>
+                    <field name="price_discount" invisible="1"/>
+                    <field name="applied_on" invisible="1"/>
+                    <field name="compute_price" invisible="1"/>
+                </tree>
+                </field>
+            </xpath>
+            </field>
+        </record>
+
+        <record id="pricelist_item_hubi_form_view" model="ir.ui.view">
+            <field name="name">pricelist.item.hubi.form</field>
+            <field name="model">product.pricelist.item</field>
+            <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
+            <field eval="99" name="priority"/>
+            <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                 <link rel="stylesheet" href="/hubi/static/src/css/style.css"/>
+            </xpath>
+            <xpath expr="//form/group" position="after">
+                <group string="Visibility" name="visibility" attrs="{'invisible': True}">
+                    <field name="is_ifls" />
+                    <field name="is_etiq_format" />
+                    <field name="is_etiq_mode" />
+                    <field name="is_tarif_option" />
+                    <field name="is_tarif_code_interne" />
+                    <field name="is_tarif_ref_client" />
+                    <field name="is_tarif_lib_promo" />
+                </group>
+                
+                <group string="Informations" name="information" attrs="{'invisible': [('applied_on', '!=','1_product')]}">
+                    <group>   
+                        <field name="customer_ref" attrs="{'invisible': [('is_tarif_ref_client', '=', False)]}" />
+                        <field name="internal_code" attrs="{'invisible': [('is_tarif_code_interne', '=', False)]}" />
+                        <field name="price_option" attrs="{'invisible': [('is_tarif_option', '=', False)]}" />
+                        <field name="price_ifls" string="IFLS" attrs="{'invisible': [('is_ifls', '=', False)]}" />
+                        <field name="description_promo" attrs="{'invisible': [('is_tarif_lib_promo', '=', False)]}" />
+                    </group>
+                    <group>
+                        <field name="price_ean13" string="EAN13" />
+                        <field name="price_printer"  string="Printer" />
+                        <field name="label_model_id" />
+                        <field name="etiq_format" string="Format" options="{'horizontal': true}" widget="radio"  attrs="{'invisible': [('is_etiq_format', '=', False)]}"/>
+                        <field name="etiq_modele" string="Modele" options="{'horizontal': true}" widget="radio"  attrs="{'invisible': [('is_etiq_mode', '=', False)]}"/>
+                    </group>
+                    <group>
+                        <div>
+                            <label string="The Color is " class="oe_magenta"  attrs="{'invisible': [('price_color', '!=', '#FF00FF')]}"/>
+                            <label string="The Color is " class="oe_blue"  attrs="{'invisible': [('price_color', '!=', '#0000FF')]}"/>
+                            <label string="The Color is " class="oe_yellow"  attrs="{'invisible': [('price_color', '!=', '#FFFF00')]}"/>
+                            <label string="The Color is " class="oe_red"  attrs="{'invisible': [('price_color', '!=', '#FF0000')]}"/>
+                            <label string="The Color is " class="oe_green"  attrs="{'invisible': [('price_color', '!=', '#008000')]}"/>
+                            <label string="The Color is " class="oe_brown"  attrs="{'invisible': [('price_color', '!=', '#D2691E')]}"/>
+                            <label string="The Color is " class="oe_white"  attrs="{'invisible': [('price_color', '!=', '#FFFFFF')]}"/>
+                            <label string="The Color is " class="oe_white"  attrs="{'invisible': [('price_color', '!=', False)]}"/>
+                            <label string="The Color is " class="oe_grey"  attrs="{'invisible': [('price_color', '!=', '#CCCCCC')]}"/>
+                            <label string="The Color is " class="oe_pink"  attrs="{'invisible': [('price_color', '!=', '#FFC0CB')]}"/>
+                        
+                        </div>
+                        <field name="price_color"  nolabel="1" style="position: absolute; left:180px;width: 300px;"/>
+   
+                    </group>
+ 
+                </group>
+            </xpath>
+            
+            
+            <xpath expr="//field[@name='compute_price']" position="before">
+                    <group>
+                        <field name="default_price" string="Default Price" attrs="{'invisible': [('applied_on', '!=','1_product')], 'readonly': True}"  />
+                        <field name="weight" string="Weight for this product" attrs="{'invisible': [('applied_on', '!=','1_product')], 'readonly': True}"  />
+                        <field name="price_weight" string="Price Weight" attrs="{'invisible': [('applied_on', '!=','1_product')]}"  />
+                    </group> 
+            </xpath>
+            
+            </field>
+        </record>
+
+    </data>
+</odoo>

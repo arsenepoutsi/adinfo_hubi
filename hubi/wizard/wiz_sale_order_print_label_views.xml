@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="wiz_prepare_sale_order_print_label" model="ir.ui.view">
+            <field name="name">wiz_prepare_sale_order_print_label_form1</field>
+            <field name="model">wiz_sale_order_print_label</field>
+            <field name="arch" type="xml">
+                <tree string="order_line" import="false" create="false" editable="bottom" default_order="sale_order_num">
+                    <button string="Print Label" type="object" name="print_label_from_order" icon="fa-paper-plane text-success"/>
+                    <field name="sale_order_num" readonly="1"></field>
+                    <field name="product_name" readonly="1"></field>
+                    <field name="caliber_name" readonly="1"></field>
+                    <field name="packaging_name" readonly="1"></field>
+                    <field name="packaging_date"></field>
+                    <field name="sending_date"></field>
+                    <field name="code_barre"></field>
+                    <field name="qte"></field>
+                    <field name="pds"></field>
+                    <field name="nb_mini"></field>
+                    <field name="numlot"></field>
+                    <field name="printer_id"></field>
+                    <field name="label_id"></field>
+                    <field name="color_etiq"></field>
+                    <field name="partner_id"></field>
+                    <field name="etabexp_id"></field>
+                    <button string="Cancel" class="oe_link" special="cancel" icon="fa-times-circle text-danger"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="action_wiz_sale_order_print_label_tree" model="ir.actions.act_window">
+	        <field name="name">Order line</field>
+	        <field name="type">ir.actions.act_window</field>
+	        <field name="res_model">wiz_sale_order_print_label</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">tree</field>
+            <field name="view_id" ref="wiz_prepare_sale_order_print_label"/>
+            <field name="context">{'default_sale_order_line_id': context.get('sale_order_line_id',False),}</field>
+	        <field name="target">new</field>
+	    </record>
+    </data>
+</odoo>

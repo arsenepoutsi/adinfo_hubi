@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_hubi_invoice_weight_report_pivot" model="ir.ui.view">
+         <field name="name">hubi.invoice.weight.report.pivot</field>
+         <field name="model">account.invoice.report</field>
+         <field name="arch" type="xml">
+             <pivot string="Invoices Analysis Weight" disable_linking="True">
+                 <field name="categ_id" type="row"/>
+                 <field name="date" type="col"/>
+                 <field name="weight_total" type="measure"/>
+             </pivot>
+         </field>
+    </record>
+    
+    <record id="view_hubi_invoice_detail_report_pivot" model="ir.ui.view">
+         <field name="name">hubi.invoice.detail.report.pivot</field>
+         <field name="model">account.invoice.report</field>
+         <field name="arch" type="xml">
+             <pivot string="Invoices Analysis Weight" disable_linking="True">
+                 <field name="partner_id" type="row"/>
+                 <field name="categ_id" type="row"/>
+                 <field name="caliber_name" type="row"/>
+                 <field name="packaging_name" type="row"/>
+                 <field name="date" type="col"/>
+                 <field name="product_qty" type="measure"/>
+                 <field name="weight_total" type="measure"/>
+                 <field name="price_weight" type="measure"/>
+                 <field name="price_total" type="measure"/>
+             </pivot>
+         </field>
+    </record>
+    
+    <record id="action_hubi_invoice_report_weight" model="ir.actions.act_window">
+        <field name="name">Invoices Analysis Weight</field>
+        <field name="res_model">account.invoice.report</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="context">{'search_default_current':1, 'search_default_customer':1, 'group_by':[], 'group_by_no_leaf':1, 'search_default_year': 1}</field>
+        <field name="search_view_id" ref="account.view_account_invoice_report_search"/>
+        <field name="view_id" ref="view_hubi_invoice_weight_report_pivot"/>
+        <field name="help">From this report, you can have an overview of the weight invoiced to your customers. The search tool can also be used to personalise your Invoices reports and so, match this analysis to your needs.</field>
+    </record>  
+    
+    <record id="view_hubi_invoice_report_tree" model="ir.ui.view" >
+        <field name="name">hubi.invoice.report.tree</field>
+        <field name="model">account.invoice.report</field>        
+        <field name="arch" type="xml">
+            <tree string="Invoice_report" import="false" create="false" default_order="partner_id, categ_id,caliber_name,packaging_name">
+                <field name="partner_id"/>
+                <field name="categ_id"/>
+                <field name="caliber_name"/>
+                <field name="packaging_name"/>
+                <field name="product_qty"/>
+                <field name="weight_total" sum="Total Weight"/>
+                <field name="price_weight"/>
+                <field name="price_total" sum="Total Price"/>
+                <field name="residual"  sum="residual"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id="view_hubi_invoice_report_search" model="ir.ui.view">
+        <field name="name">hubi.invoice.report.search</field>
+        <field name="model">account.invoice.report</field>
+        <field name="arch" type="xml">
+            <search string="Invoices Analysis">
+                <filter string="My Invoices" name="my_invoice" domain="[('user_id', '=', uid)]"/>
+                <separator/>
+                <field name="date"/>
+                <filter string="This Year" name="thisyear" domain="['|', ('date', '=', False), '&amp;',('date','&lt;=', time.strftime('%%Y-12-31')),('date','&gt;=',time.strftime('%%Y-01-01'))]" help="Journal invoices with period in current year"/>
+                <separator/>
+                <filter string="To Invoice" domain="[('state','=','draft')]" help = "Draft Invoices"/>
+                <filter string="Invoiced" name="current" domain="[('state','not in', ('draft','cancel'))]"/>
+                <separator/>
+                <filter string="This Month" name="this_month" domain="[('date', '&gt;=', context_today().strftime('%%Y-%%m-01'))]"/>
+                <filter string="Last Month" name="last_month" domain="['&amp;', ('date', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%%Y-%%m-01')), ('date', '&lt;', context_today().strftime('%%Y-%%m-01'))]"/>
+                <separator/>
+                <filter string="Customer" name="customer" domain="['|', ('type','=','out_invoice'),('type','=','out_refund')]"/>
+                <filter string="Vendor" name="supplier" domain="['|', ('type','=','in_invoice'),('type','=','in_refund')]"/>
+                <separator/>
+                <filter string="Invoice" domain="['|', ('type','=','out_invoice'),('type','=','in_invoice')]"/>
+                <filter string="Credit Note" domain="['|', ('type','=','out_refund'),('type','=','in_refund')]"/>
+                <field name="partner_id" operator="child_of"/>
+                <field name="user_id" />
+                <field name="categ_id" filter_domain="[('categ_id', 'child_of', self)]"/>
+                <separator/>
+                <filter string="Free Product" name = "free" domain="[('free_product','=', True)]" help = "Free Product"/>
+
+                <group expand="0" string="Group By">
+                    <filter string="Partner" name="partner_id" context="{'group_by':'partner_id'}"/>
+                </group>
+
+            </search>
+        </field>
+    </record>
+    
+    <record id="view_hubi_invoice_free_report_tree" model="ir.ui.view" >
+        <field name="name">hubi.invoice.free.report.tree</field>
+        <field name="model">account.invoice.report</field>        
+        <field name="arch" type="xml">
+            <tree string="Invoice_free_report" import="false" create="false" default_order="partner_id, categ_id,caliber_name,packaging_name">
+                <field name="partner_id"/>
+                <field name="categ_id"/>
+                <field name="caliber_name"/>
+                <field name="packaging_name"/>
+                <field name="product_qty"/>
+                <field name="weight_total" sum="Total Weight"/>
+                <field name="price_weight"/>
+                <field name="number"/>
+                <field name="origin"/>
+
+            </tree>
+        </field>
+    </record>
+    
+    <record id="view_hubi_invoice_free_report_pivot" model="ir.ui.view">
+         <field name="name">hubi.invoice.free.report.pivot</field>
+         <field name="model">account.invoice.report</field>
+         <field name="arch" type="xml">
+             <pivot string="Invoices Analysis Weight" disable_linking="True">
+                 <field name="partner_id" type="row"/>
+                 <field name="categ_id" type="row"/>
+                 <field name="caliber_name" type="row"/>
+                 <field name="packaging_name" type="row"/>
+                 <field name="date" type="col"/>
+                 <field name="product_qty" type="measure"/>
+                 <field name="weight_total" type="measure"/>
+                 <field name="price_weight" type="measure"/>
+             </pivot>
+         </field>
+    </record>
+    
+    <record id="view_hubi_invoice_free_report_graph" model="ir.ui.view">
+         <field name="name">hubi.invoice.free.report.graph</field>
+         <field name="model">account.invoice.report</field>
+         <field name="arch" type="xml">
+             <graph string="Invoices Analysis">
+                 <field name="categ_id"/>
+                 <field name="weight_total" type="measure"/>
+             </graph>
+         </field>
+    </record>
+    
+    <record id="action_hubi_invoice_report_free" model="ir.actions.act_window">
+        <field name="name">Invoices Analysis Free Product</field>
+        <field name="res_model">account.invoice.report</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">pivot,graph,tree</field>
+        <field name="context">{'search_default_customer':1, 'search_default_year': 1, 'search_default_free':1,}</field>
+        <field name="search_view_id" ref="hubi.view_hubi_invoice_report_search"/>
+        <field name="view_ids" eval="[(5,0,0),
+                (0, 0, {'view_mode': 'pivot', 'view_id': ref('view_hubi_invoice_free_report_pivot')}),
+                (0, 0, {'view_mode': 'graph', 'view_id': ref('view_hubi_invoice_free_report_graph')}),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_hubi_invoice_free_report_tree')})]"/>
+        <field name="help">From this report, you can have an overview of the free products invoiced to your customers. The search tool can also be used to personalise your Invoices reports and so, match this analysis to your needs.</field>
+    </record>
+    
+    <record id="action_hubi_invoice_report_detail" model="ir.actions.act_window">
+        <field name="name">Invoices Analysis Detail</field>
+        <field name="res_model">account.invoice.report</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">pivot,graph,tree</field>
+        <!--<field name="context">{'search_default_current':1, 'search_default_customer':1, 'group_by':['partner_id'],  'search_default_year': 1}</field>-->
+        <field name="context">{'search_default_current':1, 'search_default_customer':1,  'search_default_year': 1}</field>
+        <field name="search_view_id" ref="hubi.view_hubi_invoice_report_search"/>
+        <!--<field name="view_id" ref="view_account_invoice_detail_report_pivot"/>-->
+        <field name="view_ids" eval="[(5, 0),
+                (0, 0, {'view_mode': 'pivot', 'view_id': ref('view_hubi_invoice_detail_report_pivot')}),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_hubi_invoice_report_tree')})]"/>
+        <field name="help">From this report, you can have an overview of the amount invoiced to your customers. The search tool can also be used to personalise your Invoices reports and so, match this analysis to your needs.</field>
+    </record> 
+</odoo>

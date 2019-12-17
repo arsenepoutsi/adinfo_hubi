@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_miadi_etiquette_labelmodel_tree" model="ir.ui.view" >
+            <field name="name">miadi_etiquette.labelmodel.tree</field>
+            <field name="priority">1</field>
+            <field name="model">hubi.labelmodel</field>        
+            <field name="arch" type="xml">
+                <tree string="Label models" default_order="name"  import="false" create="true">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <!--<field name="file"/>-->
+                    <field name="with_ean128"/>
+                </tree>
+            </field>
+    </record>
+    
+    <record id="miadi_etiquette_labelmodel_form" model="ir.ui.view">
+        <field name="name">miadi_etiquette.labelmodel.form</field>
+        <field name="model">hubi.labelmodel</field>
+        <field name="arch" type="xml">
+            <form string="Label Model">
+                <header>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <H1>
+                            <field name="name" default_focus="1" placeholder="Name of the label model"/>                             
+                        </H1>
+                    </div> 
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <!--<field name="file"/>-->
+                            <field name="text"/>
+                            <field name="with_ean128"/>
+                        </group>
+                    </group>
+                </sheet>         
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_miadi_etiquette_labelmodel" model="ir.actions.act_window">
+        <field name="name">Label model</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hubi.labelmodel</field>
+        <field name="view_type">form</field>
+        <field name="search_view_id" ref="view_miadi_etiquette_labelmodel_tree"/>              
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Help
+            </p>
+            <p>
+                Listing of the label models.
+            </p>
+        </field>
+    </record>
+    
+    <act_window
+        id="action_wiz_print_label"
+        name="Print label"
+        res_model="wiz_print_label"
+        src_model="hubi.labelmodel"
+        view_mode="form"
+        view_type="form"
+        target="new"
+        view_id="wiz_print_label_view">    
+    </act_window>
+</odoo>

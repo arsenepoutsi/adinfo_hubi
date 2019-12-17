@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record id="wiz_create_productprice_step1" model="ir.ui.view">
+		<field name="name">wiz.createproductprice.form1</field>
+		<field name="model">wiz.productprice</field>
+		<field name="arch" type="xml">
+		
+			<form string="Create Prices">
+			
+				<div class="oe_title">
+					<label for="category_id" />
+					<h2>
+						<field name="category_id"  colspan="6" />
+					</h2>
+					<separator />
+					<label for="date_start" />
+                    <h2>
+                        <field name="date_start" colspan="6" />
+                    </h2>
+                    <separator />
+                    <label for="date_end" />
+                    <h2>
+                        <field name="date_end" colspan="6" />
+                    </h2>
+                    <separator />
+                    
+				</div>
+				
+			
+			<separator />
+
+			<footer>
+				<button string="Create Prices" type="object" name="create_price_item"
+					default_focus="1" class="oe_link"/>
+				<button string="Cancel" class="oe_link" special="cancel" />
+			</footer>
+			</form>
+		</field>
+	</record>
+
+	<record id="wiz_create_productprice_step2" model="ir.ui.view">
+		<field name="name">wiz.createproductprice.form2</field>
+		<field name="model">wiz.productprice</field>
+		<field name="arch" type="xml">
+			<form string="Create Price">
+				<field name="message" colspan="6" readonly="1" nolabel="1" />
+				<footer>
+					<button string="OK" special="cancel" />
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<act_window
+		id="action_wiz_create_productprice"
+		multi="True"
+		key2="client_action_multi"
+		name="Create Price"
+		res_model="wiz.productprice"
+		src_model="product.pricelist"
+		view_mode="form"
+		target="new"
+		view_type="form"
+		view_id="wiz_create_productprice_step1">	
+	</act_window>
+
+</odoo>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_hubi_lowmargin" model="report.paperformat">
+        <field name="name">European A4 low margin</field>
+        <field name="default" eval="True" />
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">5</field>
+        <field name="margin_bottom">5</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">0</field>
+        <field name="dpi">80</field>
+    </record>
+    
+    <record id="paperformat_hubi_A3_euro" model="report.paperformat">
+        <field name="name">European A4</field>
+        <field name="default" eval="True" />
+        <field name="format">A3</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">10</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">35</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="paperformat_hubi_A4_euro" model="report.paperformat">
+        <field name="name">European A4</field>
+        <field name="default" eval="True" />
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">40</field>
+        <field name="margin_bottom">25</field>
+        <field name="margin_left">10</field>
+        <field name="margin_right">10</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">35</field>
+        <field name="dpi">90</field>
+    </record>
+    
+    <record id="report_qweb_paperformat" model="report.paperformat">
+        <field name="name">Account financial report qweb paperformat</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">297</field>
+        <field name="page_width">210</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">12</field>
+        <field name="margin_bottom">8</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">10</field>
+        <field name="dpi">110</field>
+    </record>
+    
+    <report id="report_partner_list" model="res.partner"  string="Customer List" 
+        report_type="qweb-pdf" name="hubi.report_partner_list_address" file="hubi.report_partner_list_address"
+        paperformat="paperformat_hubi_lowmargin" attachment_use="False">
+    </report>
+
+    <report id="report_partner_sheet" model="res.partner"  string="Customer Sheet" 
+        report_type="qweb-pdf" name="hubi.report_partner_sheet_address" file="hubi.report_partner_sheet_address"
+        paperformat="paperformat_hubi_A4_euro" attachment_use="False">
+    </report>
+    
+    <report id="report_productprice_sheet" model="product.pricelist"  string="Product Price Sheet" 
+        report_type="qweb-pdf" name="hubi.report_product_sheet_price" file="hubi.report_product_sheet_price"
+        paperformat="paperformat_hubi_A3_euro" attachment_use="False">
+    </report>
+   
+    <report 
+            id="action_report_saleorder_hubi"
+            string="Quotation / Order / HUBI"
+            model="sale.order" 
+            report_type="qweb-pdf"
+            file="hubi.report_sale_order_hubi" 
+            name="hubi.report_sale_order_hubi"
+            paperformat="paperformat_hubi_A4_euro" 
+            attachment_use="False"
+            print_report_name="(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)"
+    />
+    
+    <report
+            id="action_report_no_validate_hubi"
+            string="Quotation / Order / No validate / HUBI"
+            model="sale.order"
+            report_type="qweb-pdf"
+            file="hubi.report_sale_order_no_validate_hubi"
+            name="hubi.report_sale_order_no_validate_hubi"
+            paperformat="paperformat_hubi_A4_euro" 
+            print_report_name="(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)"
+    />  
+    
+    <report
+            id="action_report_pro_forma_invoice_hubi"
+            string="PRO-FORMA Invoice / HUBI"
+            model="sale.order"
+            report_type="qweb-pdf"
+            file="hubi.report_sale_order_pro_forma_hubi"
+            name="hubi.report_sale_order_pro_forma_hubi"
+            paperformat="paperformat_hubi_A4_euro" 
+            print_report_name="'PRO-FORMA - %s' % (object.name)"
+    />  
+    
+    <report id="report_invoice_summary" 
+        model="account.invoice"  string="Account Summary" 
+        report_type="qweb-pdf" 
+        name="hubi.report_account_invoice_summary" file="hubi.report_account_invoice_summary"
+        paperformat="paperformat_hubi_A4_euro" attachment_use="False">
+    </report>
+    
+    <report 
+            id="account_invoices_hubi"
+            model="account.invoice"
+            string="Invoices Hubi"
+            report_type="qweb-pdf"
+            name="hubi.report_invoice_with_payments_hubi"
+            file="hubi.report_invoice_with_payments_hubi"
+            attachment="(object.state in ('open','paid')) and ('INV'+(object.number or '').replace('/','')+'.pdf')"
+            print_report_name="(object._get_printed_report_name())"
+        />
+
+    <report
+            id="account_invoices_without_payment_hubi"
+            model="account.invoice"
+            string="Invoices Hubi without Payment"
+            report_type="qweb-pdf"
+            name="hubi.report_invoice_hubi"
+            file="hubi.report_invoice_hubi"
+            attachment="(object.state in ('open','paid')) and ('INV'+(object.number or '').replace('/','')+'.pdf')"
+            print_report_name="(object._get_printed_report_name())"
+        />
+        
+    <report 
+            id="report_sale_carrier" 
+            model="sale.report.carrier"  
+            string="Carrier Report" 
+            report_type="qweb-pdf" 
+            name="hubi.report_carrier_delivery_slip" 
+            file="hubi.report_carrier_delivery_slip"
+            paperformat="paperformat_hubi_A4_euro" 
+            attachment_use="False">
+    </report>
+    
+ <!-->       
+    <report
+      id="action_report_trial_balance_qweb"
+      model="report_trial_balance_qweb"
+      string="Trial Balance"
+      report_type="qweb-pdf"
+      name="hubi.report_trial_balance_qweb"
+      file="hubi.report_trial_balance_qweb"
+      paperformat="report_qweb_paperformat"
+      />
+ 
+
+    <record id="action_report_trial_balance_xlsx" model="ir.actions.report.xml">
+      <field name="name">Trial Balance XLSX</field>
+      <field name="model">report_trial_balance_qweb</field>
+      <field name="type">ir.actions.report.xml</field>
+      <field name="report_name">hubi.report_trial_balance_xlsx</field>
+      <field name="report_type">xlsx</field>
+      <field name="auto" eval="False"/>
+    </record> 
+    
+    
+    <report
+    id="action_report_trial_balance_ebp_csv"
+    model="report_trial_balance_qweb"
+    string="EBP CSV Balance"
+    report_type="qweb-txt-csv"
+    name="hubi.report_trial_balance_ebp_csv"
+    file="hubi.report_trial_balance_ebp_csv"
+    />   
+ -->   
+</odoo>

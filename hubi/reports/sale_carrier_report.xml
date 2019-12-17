@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="report_carrier_delivery_slip">
+		<t t-call="web.html_container">
+		<t t-call="web.internal_layout">
+            <div class="page">
+                
+                <t t-set="total_weight" t-value="0"/>
+                <t t-set="total_qty" t-value="0"/>
+                <t t-set="total_pallet" t-value="0"/>   
+                <t t-set="total_gen_weight" t-value="0"/>
+                <t t-set="total_gen_qty" t-value="0"/>
+                <t t-set="total_gen_pallet" t-value="0"/>                   
+                <t t-set="carrier_rupture" t-value="zzzzz"/>  
+
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th colspan="8">DELIVERY SLIP</th>
+                    </tr>
+                    
+                    <tr>
+                        <th>Carrier</th>
+                        <th>No</th>
+                        <th>Customer</th>
+                        <th>Address</th>
+                        <th>Number</th>
+                        <th>Weight</th>
+                        <th>Pallet</th>
+                        <th>Comments</th>
+                    </tr>
+                    </thead>
+                    
+                    <tbody>
+                    <t t-foreach="docs.sorted(key=lambda r: r.carrier_name)" t-as="carrier">
+                    
+                        <t t-set="customer_info" t-value="carrier.partner_id"/>
+                        
+                        <tr t-if="(carrier.carrier_name != carrier_rupture and carrier_rupture != zzzzz) or (carrier_last)" >
+                            <td colspan="4">
+                                <strong>
+                                    <p>
+                                        <span t-esc="carrier_rupture" />
+                                    </p>
+
+                                </strong>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="total_qty" />
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="total_weight" />
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="total_pallet" />
+                            </td> 
+                            <td></td>   
+                            
+                            <t t-set="total_weight" t-value="0"/>
+                            <t t-set="total_qty" t-value="0"/>
+                            <t t-set="total_pallet" t-value="0"/>   
+                            
+                            <p style="page-break-after:always;"/>                      
+                        </tr>
+                                                
+                        <tr>
+                            <td >
+                                <span t-field="carrier.carrier_name" />
+                            
+                            </td>
+                            <td> <span t-field="carrier.name" /> </td>
+                            <td >  <span t-field="customer_info.name" /> </td>
+                            <td> <span t-field="customer_info.street" /> </td>
+                            <td class="text-right">
+                                <span t-field="carrier.product_uom_qty" />
+                                <t t-set="total_qty" t-value="total_qty + carrier.product_uom_qty" /> 
+                                <t t-set="total_gen_qty" t-value="total_gen_qty + carrier.product_uom_qty" />
+                            </td>
+                            
+                            <td class="text-right">
+                               <span t-field="carrier.weight" />
+                               <t t-set="total_weight" t-value="total_weight + carrier.weight" /> 
+                               <t t-set="total_gen_weight" t-value="total_gen_weight + carrier.weight" /> 
+                            </td>
+                            <td class="text-right"> 
+                                <span t-field="carrier.pallet_number" />
+                                <t t-set="total_pallet" t-value="total_pallet + carrier.pallet_number" />
+                                <t t-set="total_gen_pallet" t-value="total_gen_pallet + carrier.pallet_number" />
+                            </td>
+                            <td></td>
+
+                        </tr>
+                        <tr>
+                            <td ></td>
+                            <td></td>
+                            <td></td>
+                            <td> <span t-field="customer_info.zip" />&amp;bull;<span t-field="customer_info.city" /> </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                         
+                       <!--
+                       <p style="page-break-before:always;"> </p>  
+                       <p style="page-break-after:always"></p> 
+                       <div style="page-break-after: auto;"><span style="display: none;"> </span></div> 
+                       <p style="page-break-inside: avoid"> 
+                       <div style="page-break-inside: auto"></div> 
+                       -->
+                                         
+                        <tr t-if="carrier_last">
+                            <td colspan="4">
+                                <strong>
+                                    <p>
+                                        <span t-field="carrier.carrier_name" />
+                                    </p>
+
+                                </strong>
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="total_qty" />
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="total_weight" />
+                            </td>
+                            <td class="text-right">
+                                <span t-esc="total_pallet" />
+                            </td> 
+                            <td></td>                          
+                        </tr>
+                        
+                        <t t-set="carrier_rupture" t-value="zzzzz"/> 
+                        <t t-if="carrier.carrier_name" >
+                            <t t-set="carrier_rupture" t-value="carrier.carrier_name" />
+                        </t>
+                                
+                    </t>
+                    </tbody>
+                </table>
+            </div>           
+
+        </t>
+		</t>
+	</template>
+</odoo>

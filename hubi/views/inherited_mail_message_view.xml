@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_account_specific_form">
+        <field name="name">mail.message.tree.inherit</field>
+        <field name="inherit_id" ref="mail.view_message_tree"/>
+        <field name="model">mail.message</field>
+        
+        <field name="arch" type="xml">
+            <field name="res_id" position="before">
+                <field name="email_from"/>
+                <field name="partner_ids"  widget="many2many_tags"/>
+                <field name="message_type"/>
+            </field>
+        </field>
+    </record>
+</odoo>

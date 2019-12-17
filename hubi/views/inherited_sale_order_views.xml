@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    <record id="hubi_sale_order_form_view" model="ir.ui.view">
+        <field name="name">hubi.sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//form/header/field[@name='state']" position="before">
+                <button name="action_search_products" type="object" string="Create Products" 
+                context="{'pricelist_id': pricelist_id}" class="oe_button oe_form_button oe_highlight" />  
+                
+                <button name="action_palletization" type="object" string="Palletization"  
+                class="oe_button oe_form_button oe_highlight" 
+                attrs="{'invisible': [('state', 'in', ['draft', 'sent', 'cancel'])]}"/>  
+                
+                
+                <button name="action_print_label" type="object" string="Print Label"  
+                class="oe_button oe_form_button oe_highlight" />
+                
+                
+                <!-->
+                <field name="domain">[('state', 'not in', ('draft', 'sent', 'cancel'))]</field>
+                <button name="sale_order_lines_csv" type="object" string="CSV" context="{'order_id': id, 'partner_name': partner_id}" class="oe_button oe_form_button oe_highlight" />
+                -->
+            </xpath>
+            
+            <xpath expr="//field[@name='validity_date']" position="before">
+                <field name="date_order"/>
+                <!-->
+                <a id="csv_download" href="#" target="_blank" download="file.csv"/>
+                <div id="csv_url_div" style="display:none"><field name="csv_url"/></div>
+                <script>
+                    $(document).ready(function(){
+                    var csv_url = $("#csv_url_div").text();
+                     $("#csv_download").attr("href", csv_url);
+                    });
+                </script> 
+                -->
+                
+                
+            </xpath>
+            <!-->
+            <xpath expr="//field[@name='partner_shipping_id']" position="after">
+                <field name="order_reference"/>
+            </xpath>
+            
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="shipper_id"/>
+            </xpath>
+            -->
+            <xpath expr="//field[@name='order_line']/tree" position="attributes">
+                    <attribute name="editable"/>
+            </xpath>
+                
+            <xpath expr="//field[@name='order_line']/form/group/group/field[@name='product_id']" position="before">
+                <label class="oe_edit_only" for="category_id" string="Category"/>
+                <field name="category_id" class="oe_edit_only" nolabel="1"/>
+                <label class="oe_edit_only" for="caliber_id" string="Caliber"/>
+                <field name="caliber_id" class="oe_edit_only" nolabel="1"/>
+                <label class="oe_edit_only" for="packaging_id" string="Packaging"/>
+                <field name="packaging_id" class="oe_edit_only" nolabel="1"/>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']/form/group/group/field[@name='tax_id']" position="after">
+                <field name="no_lot"/>
+                <field name="weight" readonly="1"/>
+                <field name="price_weight" readonly="1"/>
+                <field name="date_dluo" readonly="1"/>
+            </xpath>
+            
+            <xpath expr="//field[@name='order_line']/form/field[@name='name']" position="after">
+                <label for="comment"/>
+                <field name="comment"/>
+            </xpath>
+            
+            <!-->
+            <xpath expr="//field[@name='order_line']/tree/field[@name='product_id']" position="before">
+                <field name="category_id" />
+                <field name="caliber_id" />
+                <field name="packaging_id" />
+            </xpath>
+            -->
+            <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom']" position="replace"/>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='tax_id']" position="replace"/>
+            
+            <xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="replace"/>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='product_id']" position="after">
+                <field name="name" invisible="1" />
+            </xpath>
+            
+            <xpath expr="//field[@name='order_line']/tree/field[@name='name']" position="after">
+                <field name="no_lot" />
+                <field name="date_dluo" />
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="before">
+                <field name="product_uom" invisible="1"/>
+                <field name="weight" readonly="1"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_total']" position="before">
+                <field name="tax_id" widget="many2many_tags" options="{'no_create': True}" domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"
+                    attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}"/>
+            </xpath>
+            <xpath expr="//group[@name='sales_person']" position="after">
+                <group string="Other Information" name="sale_info">
+                    <label for="sending_date"/>
+                    <div class="o_row">
+                    <field name="sending_date" />
+                    
+                    <field name="calcul_lot" invisible = "1" />
+                    <button
+                        type="action"
+                        name="%(action_wiz_confirm_dialog)d"
+                        class="btn-link mb4 fa fa-lightbulb-o"
+                        attrs="{'invisible': [('calcul_lot', '=', 'M')]}"
+                        context="{'default_confirm_message': 'Are you sure you want to update the batch number for the lines', 
+                            'default_code_message': 'sale_batch-number'}"
+                        />
+                        <!--  class="btn-xs btn-link mb4 fa fa-lightbulb-o" -->
+                    </div>    
+                    <field name="packaging_date"/>
+                    <field name="pallet_number"/>
+                </group>
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']" position="after">      
+                <button name="action_search_products" type="object" string="Create Products" context="{'pricelist_id': pricelist_id}" class="oe_button oe_form_button oe_highlight" />  
+                <!--<button name="action_open_search_products"  type="action" string="Open Create Products" context="{'pricelist_id': pricelist_id}"/>-->  
+            </xpath>    
+            
+            <xpath expr="//page[2]" position="after">
+                <page name="note" string="Note" >
+                    <field name="comment" />
+                </page>    
+            </xpath>
+                   
+        </field>
+    </record>
+     
+    <record id="hubi_sale_order_tree_view" model="ir.ui.view">
+        <field name="name">hubi.sale.order.tree</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+       
+            <xpath expr="//field[@name='confirmation_date']" position="replace"></xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="date_order"  string="Order Date" />
+                <field name="confirmation_date"  string="Confirmation Date"/>
+            </xpath>
+            <!-->
+            <xpath expr="//field[@name='amount_total']" position="after">
+                <field name="periodicity_invoice"  string="Invoice Period" />
+            </xpath>
+            -->
+        </field>
+    </record>
+         
+    <record id="hubi_sale_order_form_search" model="ir.ui.view">
+        <field name="name">hubi.sale.order.form.search</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//filter[@name='my_sale_orders_filter']" position="after">
+                <separator/>
+                <filter string="Today" name="today" domain="[('date_order', '&gt;=', context_today().strftime('%%Y-%%m-%%d'))]"/>
+                <filter string="This Month" name="this_month" domain="[('date_order', '&gt;=', context_today().strftime('%%Y-%%m-01'))]"/>
+                <filter string="Last Month" name="last_month" domain="['&amp;', ('date_order', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%%Y-%%m-01')), ('sending_date', '&lt;', context_today().strftime('%%Y-%%m-01'))]"/>
+                <separator/>
+            </xpath> 
+        </field>
+    </record> 
+           
+    <record id="sale.action_quotations" model="ir.actions.act_window">
+        <field name="context">{'search_default_draft': 1, 'search_default_sent': 1}</field>
+    </record>
+
+        
+        <act_window
+            id="action_wiz_print_label_sale"
+            multi="True"
+            key2="client_action_multi"
+            name="Print Label from sale"
+            res_model="wiz.confirm.dialog"
+            src_model="sale.order"
+            context="{'default_confirm_message': 'Are you sure you want to print label', 
+                            'default_code_message': 'sale_order_print_label'}"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            view_id="wiz_confirm_dialog_form">    
+        </act_window>
+
+        <!-- <act_window
+            id="action_wiz_print_label_sale"
+            multi="True"
+            key2="client_action_multi"
+            name="Print Label from sale"
+            res_model="wiz_sale_order_print_label"
+            src_model="sale.order"
+            view_mode="tree"
+            view_type="form"
+            target="new"
+            view_id="wiz_prepare_sale_order_print_label">    
+        </act_window> --> 
+        
+        <record id="action_email_sale_order_send_server" model="ir.actions.server">
+            <field name="name">Email: Send email</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_sale_order"/>
+            <field name="binding_model_id" ref="model_sale_order"/>
+            <field name="state">code</field>
+            <field name="code">
+                if records:
+                    action = records.sale_order_send_email()
+            </field>
+    </record>
+    
+    </data>
+</odoo>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+   <data>
+  
+    <record id="send_email_invoice_search" model="ir.ui.view">
+        <field name="name">hubi.invoice.search</field>
+        <field name="model">account.invoice</field>
+        <field name="arch" type="xml">
+            <search string="Search Invoice">
+                    <field name="number" string="Invoice" filter_domain="['|','|','|', ('number','ilike',self), ('origin','ilike',self), ('reference', 'ilike', self), ('partner_id', 'child_of', self)]"/>
+                    <field name="journal_id" />
+                    <filter name="draft" string="Draft" domain="[('state','=','draft')]"/>
+                    <!-->
+                    <filter name="invoices" string="Invoices" domain="['&amp;', ('state','in',['draft','open','paid']),('type','in',('out_invoice','in_invoice'))]"/>
+                    <filter name="refunds" string="Credit Notes" domain="['&amp;', ('state','in',['draft','open','paid']),('type','in',('out_refund','in_refund'))]"/>
+                    -->
+                    <separator/>
+                    <filter name="unpaid" string="Not Paid" domain="[('state','=','open')]"/>
+                    <filter name="late" string="Overdue" domain="['&amp;', ('date_due', '&lt;', time.strftime('%%Y-%%m-%%d')), ('state', '=', 'open')]" help="Overdue invoices, maturity date passed"/>
+                    <separator/>
+                    <field name="partner_id" operator="child_of"/>
+                    <field name="user_id" string="Salesperson" domain="[('share','=', False)]"/>
+                    <field name="date" string="Period"/>
+                    <separator/>
+                    <filter domain="[('user_id','=',uid)]" help="My Invoices"/>
+
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_partner_id" string="Partner" context="{'group_by':'commercial_partner_id'}"/>
+                        <filter string="Salesperson" context="{'group_by':'user_id'}"/>
+                        <filter name="status" string="Status" context="{'group_by':'state'}"/>
+                        <separator/>
+                        <filter string="Invoice Date" context="{'group_by':'date_invoice'}"/>
+                        <filter string="Due Date" context="{'group_by':'date_due'}"/>
+                    </group>              
+            </search>
+        </field>
+    </record>
+                 
+    <record id="send_email_invoice_tree" model="ir.ui.view" >
+            <field name="name">hubi.send.email.invoice.tree</field>
+            <field name="priority">1</field>
+            <field name="model">account.invoice</field>        
+            <field name="arch" type="xml">
+                <tree string="Invoice"  decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" default_order = "partner_id" import="false" create="false">
+                    
+                    <field name="partner_id" groups="base.group_user" string="Customer"/>
+                    <field name="date_invoice"/>
+                    <field name="number"/>
+                    <field name="commercial_partner_id" invisible="1"/>
+                    <field name="reference" invisible="1"/>
+                    <field name="name" invisible="1"/>
+                    <field name="journal_id" invisible="1"/>
+                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                    <field name="user_id"/>
+                    <field name="date_due"/>
+                    <field name="origin"/>
+                    <field name="amount_total_signed" string="Total" sum="Total"/>
+                    <field name="residual_signed" string="Amount Due" sum="Amount Due"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="company_currency_id" invisible="1"/>
+                    <field name="state"/>
+                    <field name="type" invisible="1"/>
+                    <field name="type" invisible="context.get('type',True)"/>
+                </tree>
+
+            </field>
+    </record>
+ <!-->
+    <record id="action_send_email_invoice_customer" model="ir.actions.act_window">
+        <field name="name">InvoiceCustomer</field>
+        
+        <field name="res_model">account.invoice</field>
+        <field name="view_type">tree</field>            
+        <field name="search_view_id" ref="send_email_invoice_search"/> 
+        <field name="view_id" ref="send_email_invoice_tree"/>
+      
+<field name="context">{'group_by':'group_by_partner_id', 'type':'out_invoice', 'journal_type': 'sale'}</field>  
+        <field name="domain">[('type','=','out_invoice')]</field>
+            
+        <field name="view_mode">tree</field>
+    </record>
+    -->
+    
+         <record id="action_send_email_invoice_customer" model="ir.actions.act_window">
+            <field name="name">Customer Invoices</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','=','out_invoice')]</field>
+            <field name="context">{'type':'out_invoice', 'journal_type': 'sale', 'group_by':'partner_id'}</field>
+            <field name="context">{'type':'out_invoice', 'journal_type': 'sale'}</field>
+            <field name="search_view_id" ref="send_email_invoice_search"/>
+            <field name="view_id" ref="send_email_invoice_tree"/>
+            
+        </record>
+    </data>    
+</odoo>

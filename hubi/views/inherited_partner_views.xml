@@ -1,0 +1,662 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_partner_customer" model="ir.ui.view">
+            <field name="name">partner.customer</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field eval="90" name="priority"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="inside">
+                    <link rel="stylesheet" href="/hubi/static/src/css/style.css"/>
+                </xpath>
+                            
+                <xpath expr="//field[@name='title']" position="replace"/>
+                <xpath expr="//field[@name='email']" position="replace"/>
+                <xpath expr="//field[@name='function']" position="replace"/>
+                <!--<xpath expr="//field[@name='fax']" position="replace"/>-->
+                
+                <xpath expr="//sheet/notebook/page[@name='sales_purchases']/group [@name='container_row_2']/group [@name='sale']/field[@name='customer']" position="replace"/>
+                <xpath expr="//sheet/notebook/page[@name='sales_purchases']/group [@name='container_row_2']/group [@name='sale']/field[@name='user_id']" position="replace"/>
+                <xpath expr="//sheet/notebook/page[@name='sales_purchases']/group [@name='container_row_2']/group [@name='purchase']/field[@name='supplier']" position="replace"/>
+                <xpath expr="//sheet/notebook/page[@name='sales_purchases']/group [@name='container_row_2']/group/field[@name='ref']" position="replace"/>
+               
+                <xpath expr="//field[@name='parent_id']" position="after">
+                    <field name="company_name" attrs="{'invisible': ['|', '|', ('company_name', '=', True), ('company_name', '!=', ''), ('is_company', '=', False)]}"/>
+                    <field name="title"/>
+                </xpath>
+                
+                <xpath expr="//field[@name='vat']" position="replace"/>
+                <!-->
+                <xpath expr="//label[@for='street']" position="after">
+                    <field name="vat" string="VAT" placeholder="e.g. FR0477472701"/>
+                </xpath>
+                
+                <xpath expr="//field[@name='category_id']" position="replace"/>
+                <xpath expr="//field[@name='street']" position="after">
+                    <field name="category_id" widget="many2many_tags" placeholder="Tags..." options="{'no_create_edit': True}" string="Category"/>
+                </xpath>
+                -->
+                <xpath expr="//field[@name='category_id']" position="after">
+                    <!--<field name="sender_establishment" domain="[('is_company','=',1)]"  />-->
+                   
+                    <field name="cee_code"/> 
+                    <field name="customer"/>
+                    <field name="supplier"/>  
+                </xpath>
+                    
+                <xpath expr="//field[@name='lang']" position="after">
+                    <field name="email" string="Email" />
+                    <field name="function" string="Responsable" />
+                    <field name="family_type_id" string="Type" context="{'default_main_level': 'Partner', 'default_level': 'Type', 'default_level_partner': 'Type'}"/>
+                    <field name="family_job_id" string="Job" context="{'default_main_level': 'Partner', 'default_level': 'Job', 'default_level_partner': 'Job'}" />
+                    <field name="family_id" string="Family" context="{'default_main_level': 'Partner', 'default_level': 'Family', 'default_level_partner': 'Family'}"/>
+                </xpath>
+            
+                <xpath expr="//page[@name='internal_notes']" position="before">
+                    <!--<page name="characteristic" string="Characteristic" attrs="{'invisible': [('is_company', '=', True)]}">-->
+                    <page name="characteristic" string="Characteristic">
+                    <group name="characteristic_row_1">
+                        <group string="Various" name="carac_various">
+                            <field name="ref" />
+                            <field name="user_id" />
+                            <field name="sender_establishment" domain="[('is_company','=',1), ('customer','=',False), ('supplier','=',False)]" options="{'no_create': True}" />
+                            <field name="carrier_id" />
+                            
+                            <field name="excluded_packaging" />
+                            <!--<field name="remote_operation" attrs="{'invisible': [('is_fonction_deporte', '=', False)]}"/>-->
+                        </group>
+                        <group string="Information" name="information" attrs="{'invisible': [('is_company', '=', False)]}">
+                            <!--<field name="vat" string="VAT" placeholder="e.g. FR0477472701"/>-->
+                            <field name="health_number" />
+                            <field name="red_label_number" />
+                            <field name="cnuf" />
+                            <field name="asset" />
+                            <field name="siret" />
+                            <field name="rcs" />
+                            <field name="naf" />
+                            <field name="code_ean" />
+                        </group> 
+                        <group string="FRS - IFLS" name="frs_ifls" attrs="{'invisible': [('is_frs', '=', False),('is_ifls', '=', False)]}">
+                            <field name="frs_code" attrs="{'invisible': [('is_frs', '=', False)]}"/>
+                            <field name="ifls_code"  attrs="{'invisible': [('is_ifls', '=', False)]}"/>
+                            <field name="ifls_edit_invoice" attrs="{'invisible': [('is_ifls', '=', False)]}"/>
+                            <field name="ifls_edit_delivery" attrs="{'invisible': [('is_ifls', '=', False)]}"/>
+                            <field name="ifls_edit_etiq" attrs="{'invisible': [('is_ifls', '=', False)]}" />
+                        </group>  
+
+                        
+                    </group>
+                    </page>    
+                </xpath>
+                
+                <xpath expr="//page[@name='characteristic']" position="after">
+                    <!--<page name="management" string="Management" attrs="{'invisible': [('is_company', '=', True)]}">-->
+                    <page name="management" string="Management" >
+                    <group name="management_row_1">
+                        <group string="Various" name="management_various">
+                            <field name="shipping" invisible = "1"/>
+                            <field name="billing_fees" invisible = "1"/>
+                           
+                            <field name="deb" />
+                             <field name="invoice_grouping" />
+                            <field name="periodicity_invoice" />
+                            
+                        </group>
+                        <group string="Discount" name="discount">
+                            <field name="discount_invoice" />
+                            <field name="discount_ca" />
+                            <field name="discount_period_ca" />
+                            <field name="discount_description" />
+                            
+                        </group>    
+                    </group>
+                    </page>    
+                </xpath>
+                
+                <xpath expr="//page[@name='management']" position="after">
+                    <!--<page name="impression" string="Impression" attrs="{'invisible': [('is_company', '=', True)]}">-->
+                    <page name="impression" string="Impression">
+                        <group name="impression_row">
+                            <group name="impression_row_1">
+                                <field name="product_grouping" attrs="{'invisible': [('is_regr_prod_fac', '=', False)]}" />
+                                <field name="valued_delivery" />
+
+                                <field name="edit_weight" invisible = "1"/>
+                                <field name="edit_price_kg" invisible = "1" />
+                            </group>
+                            <group name="impression_row_2" invisible = "1">
+                                <field name="number_invoice" />
+                                <field name="number_delivery" />
+                            </group>
+                        </group>
+                        <group name="impression_row_3"  >
+                            <field name="bottom_message_invoice" />
+                            <field name="bottom_message_delivery" />
+                        </group>
+                    </page>    
+                </xpath>
+                
+                <xpath expr="//page[@name='impression']" position="after">
+                    <!--<page name="etiquette" string="Etiquette" attrs="{'invisible': [('is_company', '=', True)]}">-->
+                    <page name="etiquette" string="Etiquette" >
+                        <group name="etiquette_row">
+                            <group name="etiquette_row_1">
+                                <field name="customer_name_etiq" />
+                                <field name="customer_city_etiq" />
+                                <field name="label_model_id" />
+                                <field name="etiq_printer" />
+                                <div attrs="{'invisible': [('is_etiq_couleur_client', '=', False)]}">
+                                    <label string="The Color is " class="oe_magenta"  attrs="{'invisible': [('customer_color_etiq', '!=', '#FF00FF')]}"/>
+                                    <label string="The Color is " class="oe_blue"  attrs="{'invisible': [('customer_color_etiq', '!=', '#0000FF')]}"/>
+                                    <label string="The Color is " class="oe_yellow"  attrs="{'invisible': [('customer_color_etiq', '!=', '#FFFF00')]}"/>
+                                    <label string="The Color is " class="oe_red"  attrs="{'invisible': [('customer_color_etiq', '!=', '#FF0000')]}"/>
+                                    <label string="The Color is " class="oe_green"  attrs="{'invisible': [('customer_color_etiq', '!=', '#008000')]}"/>
+                                    <label string="The Color is " class="oe_brown"  attrs="{'invisible': [('customer_color_etiq', '!=', '#D2691E')]}"/>
+                                    <label string="The Color is " class="oe_white"  attrs="{'invisible': [('customer_color_etiq', '!=', '#FFFFFF')]}"/>
+                                    <label string="The Color is " class="oe_grey"  attrs="{'invisible': [('customer_color_etiq', '!=', '#CCCCCC')]}"/>
+                                    <label string="The Color is " class="oe_pink"  attrs="{'invisible': [('customer_color_etiq', '!=', '#FFC0CB')]}"/>
+                                    <label string="The Color is " class="oe_white"  attrs="{'invisible': [('customer_color_etiq', '!=', False)]}"/>
+                                </div>
+                                                          
+                                <field name="customer_color_etiq" nolabel="1" attrs="{'invisible': [('is_etiq_couleur_client', '=', False)]}"/>
+                            </group>
+                            <group name="etiquette_row_2">
+                                <field name="automatic_batch"  attrs="{'invisible': [('is_etiq_lot_auto', '=', False)]}" />
+                                <field name="ean128" attrs="{'invisible': [('is_etiq_ean_128', '=', False)]}" />
+                                <field name="dlc"  attrs="{'invisible': [('is_etiq_dlc', '=', False)]}"/>
+                                <field name="dlc_number_day"  attrs="{'invisible': [('is_etiq_dlc', '=', False)]}"/>
+                            </group>
+
+                        </group>
+                        <group name="etiquette_type" attrs="{'invisible': [('is_etiq_type', '=', False)]}">
+                            <field name="type_etiq" options="{'horizontal': true}" widget="radio"/>
+                        </group>
+                    </page>    
+                </xpath>
+                
+                <xpath expr="//page[@name='etiquette']" position="after">
+                    <!--<page name="EDI" string="EDI" attrs="{'invisible': ['|',('is_company', '=', True),'&amp;',('is_edi_facture', '=', False),('is_edi_transporteur', '=', False)]}">-->
+                    <page name="EDI" string="EDI" attrs="{'invisible': [('is_edi_facture', '=', False),('is_edi_transporteur', '=', False)]}">
+                        <group name="EDI_invoice" string="EDI Invoice" attrs="{'invisible': [('is_edi_facture', '=', False)]}">
+                            <group name="EDI_invoice_row_1">
+                                <field name="edi_invoice" />
+                            </group>
+                            <group name="EDI_invoice_row_2" attrs="{'invisible': [('edi_invoice', '=', False)]}">
+                                <field name="edi_invoice_prod" />
+                                <field name="order_code_ean" />
+                                <field name="order_name" />
+                                
+                            </group>
+                        </group>
+                        <group name="EDI_shipper" string="EDI Shipper" attrs="{'invisible': [('is_edi_transporteur', '=', False)]}">
+                            <field name="edi_transport_recipient" />
+                        </group>
+                    </page>    
+                </xpath>
+
+                <xpath expr="//page[@name='sales_purchases']" position="before">
+                    <page name="bank" string="Bank">
+                        <group>
+                            <field name="bank_ids" nolabel="1">
+                                <tree name="bank account" string="Bank account">
+                                    <field name="acc_number"/>
+                                    <field name="partner_id"/>
+                                    <field name="bank_id"/>
+                                    <field name="currency_id" groups="base.group_multi_currency" options="{'no_create': True}"/>
+                                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                </xpath>
+
+                <xpath expr="//page[@name='accounting']/group /group [@name='acc_purchase']/field[@name='property_supplier_payment_term_id']" position="after">
+                    <field name="amount_com_kg" />
+                </xpath>
+                 
+                <xpath expr="//page[@name='accounting']/group /group [@name='fiscal_information']/field[@name='property_account_position_id']" position="after">
+                    <field name="vat" string="VAT" placeholder="e.g. FR0477472701"/>
+                    <!--<field name="health_number" />-->  
+                </xpath>
+                <!--
+                <xpath expr="//page[@name='accounting']/group /group [@name='fiscal_information']" position="after">
+                        <group string="Company Etiquette" name="company_etiq"  attrs="{'invisible': [('is_company', '=', False)]}">
+                            <field name="company_name_etiq" />
+                            <field name="company_city_etiq" />
+                        </group>
+                </xpath>
+                -->
+                <xpath expr="//page[@name='accounting']/group /group [@name='accounting_entries']/field[@name='property_account_receivable_id']" position="after">
+                    <field name="auxiliary_account_customer"  groups="account.group_account_user" attrs="{'invisible': [('is_export_compta', '=', False)]}" />
+                </xpath>
+                <xpath expr="//page[@name='accounting']/group /group [@name='accounting_entries']/field[@name='property_account_payable_id']" position="after">
+                    <field name="auxiliary_account_supplier"  groups="account.group_account_user" attrs="{'invisible': [('is_export_compta', '=', False)]}" />
+                </xpath>
+               
+                <xpath expr="//page[@name='accounting']" position="after">
+                    <page name="statistics" string="Statistics">
+                        <group>
+                            <field name="statistics_alpha_1"/>
+                            <field name="statistics_alpha_2"/>
+                            <field name="statistics_alpha_3"/>
+                            <field name="statistics_alpha_4"/>
+                            <field name="statistics_alpha_5"/>
+                        </group>
+                        <!--<group>
+                            <field name="statistics_num_1"/>
+                            <field name="statistics_num_2"/>
+                            <field name="statistics_num_3"/>
+                            <field name="statistics_num_4"/>
+                            <field name="statistics_num_5"/>
+                        </group>-->
+                    </page>
+                </xpath>
+               
+                <xpath expr="//page[@name='etiquette']" position="after">
+                    <page name="visibility" string="Visibilty" invisible="1">
+                        <group>  
+                            <field name="is_frs" />
+                            <field name="is_ifls" />
+                            <field name="is_edi_facture" />
+                            <field name="is_edi_transporteur"/>
+                            <field name="is_bl_valorise" />
+                            <field name="is_etiq_lot_auto"/>
+                            <field name="is_prix_kg" />
+                            <field name="is_type_tiers" />
+                            <field name="is_etiq_dlc"/>
+                            <field name="is_etiq_couleur_client"/>
+                            <field name="is_etiq_ean_128"/>
+                            <field name="is_etiq_mode" />
+                            <field name="is_etiq_type" />
+                            <field name="is_export_compta"/>
+                            <field name="is_fonction_deporte"/>
+                            <field name="is_regr_prod_fac"/>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="search_res_partner_filter" model="ir.ui.view">
+            <field name="name">res.partner.select</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <search string="Search Partner">
+                   <field name="name"
+                       filter_domain="['|','|',('display_name','ilike',self),('ref','=',self),('email','ilike',self)]"/>
+                   <filter name="filter_my_partners" help="My Partners"
+                           domain="[('user_id','=',uid)]"/>
+                   <separator/>
+                   <filter string="Persons" name="type_person" domain="[('is_company','=',0)]"/>
+                   <filter string="Companies" name="type_company" domain="[('is_company','=',1)]"/>
+                   <separator/>
+                   <filter string="Customers" name="customer" domain="[('customer','=',1), ('parent_id', '=', False)]"/>
+                   <filter string="Vendors" name="supplier" domain="[('supplier','=',1), ('parent_id', '=', False)]"/>
+                   <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+                   <separator/>
+                   <field name="category_id" string="Tag" filter_domain="[('category_id','ilike', self)]"/>
+                   <field name="user_id"/>
+                   <field name="parent_id" domain="[('is_company','=',1)]" operator="child_of"/>
+                   <group expand="0" name="group_by" string="Group By">
+                       <filter name="salesperson" string="Salesperson" domain="[]" context="{'group_by' : 'user_id'}" />
+                       <filter name="group_company" string="Company" context="{'group_by': 'parent_id'}"/>
+                       <filter name="group_country" string="Country" context="{'group_by': 'country_id'}"/>
+                   </group>
+               </search>
+            </field>
+        </record>
+        
+        <record id="action_hubi_partner_customer" model="ir.actions.act_window" >
+            <!--<field name="view_id" ref="view_partner_customer"/>-->
+            <field name="search_view_id" ref="search_res_partner_filter"/>
+            <field name="name">Customers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="context">{"search_default_customer":1,'default_customer': 1,'default_supplier': 0, 'default_company_type': 'company'}</field>
+            <field name="view_type">form</field>        
+            <field name="view_mode">tree,form,kanban</field>
+        </record>
+        
+        <record id="action_hubi_partner_supplier" model="ir.actions.act_window" >
+            <field name="search_view_id" ref="search_res_partner_filter"/>
+            <field name="name">Suppliers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="context">{"search_default_supplier":1,'default_customer': 0,'default_supplier': 1, 'default_company_type': 'company'}</field>
+            <field name="view_type">form</field>        
+            <field name="view_mode">tree,form,kanban</field>
+        </record>
+   
+        <record id="view_category_property_form" model="ir.ui.view">
+        <field name="name">partner.over.credit.limit.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="account.view_partner_property_form"/>
+        <field name="arch" type="xml">
+            <group name="acc_sale" position="inside">
+                <field name="credit_limit"/>
+                <field name="over_credit"/>
+            </group>
+        </field>
+        </record>
+    
+        <record id="search_establishment" model="ir.ui.view">
+            <field name="name">establishment.select</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <search string="Search Establishment">
+                   <field name="name"
+                       filter_domain="['|','|',('display_name','ilike',self),('ref','=',self),('email','ilike',self)]"/>
+                   <filter name="filter_my_establishments" help="My Establishments"
+                           domain="[('user_id','=',uid), ('is_company','=',1), ('customer','=',0), ('supplier','=',0)]"/>
+                   <separator/>
+                   
+                   <!--<filter string="Customers" name="customer" domain="[('customer','=',1), ('parent_id', '=', False)]"/>
+                   <filter string="Vendors" name="supplier" domain="[('supplier','=',1), ('parent_id', '=', False)]"/>  -->
+                   <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+                   <separator/>
+                   <field name="category_id" string="Tag" filter_domain="[('category_id','ilike', self)]"/>
+                   <field name="user_id"/>
+                   <field name="parent_id" domain="[('is_company','=',1), ('customer','=',False), ('supplier','=',False)]" operator="child_of"/>
+                   <group expand="0" name="group_by" string="Group By">
+                       <filter name="salesperson" string="Salesperson" domain="[]" context="{'group_by' : 'user_id'}" />
+                       <filter name="group_company" string="Company" context="{'group_by': 'parent_id'}"/>
+                       <filter name="group_country" string="Country" context="{'group_by': 'country_id'}"/>
+                   </group>
+               </search>
+            </field>
+        </record>
+    
+        <record id="view_establishment_tree" model="ir.ui.view">
+            <field name="name">establishment.tree</field>
+            <field name="model">res.partner</field>
+            <field eval="1" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Contacts">
+                    <field name="display_name" string="Name"/>
+                    <field name="function" invisible="1"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="user_id" invisible="1"/>
+                    <field name="is_company" invisible="1"/>
+                    <field name="country_id" invisible="1"/>
+                    <field name="parent_id" invisible="1"/>
+                    <field name="active" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+    
+        <record id="view_partner_establishment" model="ir.ui.view">
+            <field name="name">Partner Establishment</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <form string="Establishment">
+               <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object"
+                                class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button"
+                                options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                    <field name="image" widget='image' class="oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/>
+                    <div class="oe_title">
+                        <field name="is_company" invisible="1"/>
+                        <field name="commercial_partner_id" invisible="1"/>
+                        <field name="company_type" widget="radio"
+                            class="oe_edit_only"
+                            options="{'horizontal': true}"/>
+                        <h1>
+                            <field name="name" default_focus="1" placeholder="Name" attrs="{'required' : [('type', '=', 'contact')]}"/>
+                        </h1>
+                        <div class="o_row">
+                            <field name="parent_id"
+                                placeholder="Company"
+                                domain="[('is_company', '=', True)]" context="{'default_is_company': True, 'default_supplier': supplier, 'default_customer': customer}"
+                                attrs="{'invisible': ['|', '&amp;', ('is_company','=', True),('parent_id', '=', False),('company_name', '!=', False),('company_name', '!=', '')]}"/>
+                                <field name="company_name" attrs="{'invisible': ['|', '|', ('company_name', '=', False), ('company_name', '=', ''), ('is_company', '=', True)]}"/>
+                                <button name="create_company" type="object" string="Create company" class="btn btn-sm oe_edit_only fa fa-external-link btn btn-link " attrs="{'invisible': ['|', '|', ('is_company','=', True), ('company_name', '=', ''), ('company_name', '=', False)]}"/>
+                        </div>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="type" attrs="{'invisible': [('parent_id','=', False)]}" groups="base.group_no_one"/>
+                            <label for="street" string="Address"/>
+                            <div class="o_address_format">
+                                <div class="oe_edit_only">
+                                    <button name="open_parent" type="object" string="(edit)" class="oe_link"
+                                        attrs="{'invisible': ['|', ('parent_id', '=', False), ('type', '!=', 'contact')]}"/>
+                                </div>
+                                <field name="street" placeholder="Street..." class="o_address_street"
+                                    attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                                <field name="street2" placeholder="Street 2..." class="o_address_street"
+                                    attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                                <field name="city" placeholder="City" class="o_address_city"
+                                    attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                                <field name="state_id" class="o_address_state" placeholder="State" options='{"no_open": True}'
+                                    attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" context="{'country_id': country_id, 'zip': zip}"/>
+                                <field name="zip" placeholder="ZIP" class="o_address_zip"
+                                    attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                                <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'
+                                    attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                            </div>
+                            
+                            <field name="category_id" string="Category" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}" placeholder="Tags..."/>
+                        </group>
+                        <group>
+                            <field name="function" placeholder="e.g. Sales Director"
+                                attrs="{'invisible': [('is_company','=', True)]}"/>
+                            <field name="phone" widget="phone"/>
+                            <field name="mobile" widget="phone"/>
+                            <field name="user_ids" invisible="1"/>
+                            <field name="email" widget="email" context="{'gravatar_image': True}" attrs="{'required': [('user_ids','!=', [])]}"/>
+                            <field name="website" widget="url" placeholder="e.g. www.odoo.com"/>
+                            <field name="title" options='{"no_open": True}'
+                                attrs="{'invisible': [('is_company', '=', True)]}"/>
+                            <field name="lang"/>
+                        </group>
+                    </group>
+
+                    <notebook colspan="4">
+                        <page string="Contacts &amp; Addresses" autofocus="autofocus">
+                            <field name="child_ids" mode="kanban" context="{'default_parent_id': active_id, 'default_street': street, 'default_street2': street2, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id, 'default_supplier': supplier, 'default_customer': customer, 'default_lang': lang,}">
+                                <kanban>
+                                    <field name="color"/>
+                                    <field name="name"/>
+                                    <field name="title"/>
+                                    <field name="type"/>
+                                    <field name="email"/>
+                                    <field name="parent_id"/>
+                                    <field name="is_company"/>
+                                    <field name="function"/>
+                                    <field name="phone"/>
+                                    <field name="street"/>
+                                    <field name="street2"/>
+                                    <field name="zip"/>
+                                    <field name="city"/>
+                                    <field name="country_id"/>
+                                    <field name="mobile"/>
+                                    <field name="state_id"/>
+                                    <field name="image_small"/>
+                                    <field name="lang"/>
+                                    <!-- fields in form x2many view to diminish requests -->
+                                    <field name="comment"/>
+                                    <field name="customer"/>
+                                    <field name="display_name"/>
+                                    <field name="supplier"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <t t-set="color" t-value="kanban_color(record.color.raw_value)"/>
+                                            <div t-att-class="color + (record.title.raw_value == 1 ? ' oe_kanban_color_alert' : '') + ' oe_kanban_global_click'">
+                                                <a t-if="!read_only_mode" type="delete" class="fa fa-times pull-right"/>
+                                                <div class="o_kanban_image">
+                                                    <img t-if="record.image_small.raw_value" t-att-src="'data:image/png;base64,'+record.image_small.raw_value"/>
+                                                    <t t-if="!record.image_small.raw_value">
+                                                        <img t-if="record.type.raw_value === 'delivery'" t-att-src='_s + "/base/static/src/img/truck.png"'/>
+                                                        <img t-if="record.type.raw_value === 'invoice'" t-att-src='_s + "/base/static/src/img/money.png"'/>
+                                                        <t t-if="record.type.raw_value !== 'invoice' &amp;&amp; record.type.raw_value !== 'delivery'">
+                                                            <img t-if="record.is_company.raw_value === true" t-att-src='_s + "/base/static/src/img/company_image.png"'/>
+                                                            <img t-if="record.is_company.raw_value === false" t-att-src='_s + "/base/static/src/img/avatar.png"'/>
+                                                        </t>
+                                                    </t>
+                                                </div>
+                                                <div class="oe_kanban_details">
+                                                    <field name="name"/>
+                                                    <div t-if="record.function.raw_value"><field name="function"/></div>
+                                                    <div t-if="record.email.raw_value"><field name="email" widget="email"/></div>
+                                                    <div t-if="record.type.raw_value != 'contact'">
+                                                        <div>
+                                                            <field name="zip"/>
+                                                            <field name="city"/>
+                                                        </div>
+                                                        <field t-if="record.state_id.raw_value" name="state_id"/>
+                                                        <field name="country_id"/>
+                                                    </div>
+                                                    <div t-if="record.phone.raw_value">Phone: <field name="phone"/></div>
+                                                    <div t-if="record.mobile.raw_value">Mobile: <field name="mobile"/></div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                                <form string="Contact / Address">
+                                    <sheet>
+                                        <!-- parent_id and type fields needed in attrs in base_address_city module which overwrites
+                                        _fields_view_get() of partner. It would be better to put those fields there but the web client
+                                        dosen't support when a field is displayed several times in the same view.-->
+                                        <field name="type" required="1" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="parent_id" invisible="1"/>
+                                        <hr/>
+                                        <group>
+                                            <group attrs="{'invisible': [('type','=', 'contact')]}">
+                                                <label for="street" string="Address"/>
+                                                <div>
+                                                    <div class="o_address_format" name="div_address">
+                                                        <field name="street" placeholder="Street..." class="o_address_street"/>
+                                                        <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                                        <field name="city" placeholder="City" class="o_address_city"/>
+                                                        <field name="state_id" class="o_address_state" placeholder="State" options='{"no_open": True}' context="{'country_id': country_id, 'zip': zip}"/>
+                                                        <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                                        <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
+                                                    </div>
+                                                </div>
+                                            </group>
+                                            <group>
+                                                <field name="name" string="Contact Name" attrs="{'required' : [('type', '=', 'contact')]}"/>
+                                                <field name="title" placeholder="e.g. Mr."
+                                                    attrs="{'invisible': [('type','!=', 'contact')]}"/>
+                                                <field name="function" placeholder="e.g. Sales Director"
+                                                    attrs="{'invisible': [('type','!=', 'contact')]}"/>
+                                                <field name="email"/>
+                                                <field name="phone" widget="phone"/>
+                                                <field name="mobile" widget="phone"/>
+                                                <field name="comment" placeholder="internal note..."/>
+                                            </group>
+                                        </group>
+                                        <field name="supplier" invisible="True"/>
+                                        <field name="customer" invisible="True"/>
+                                        <field name="lang" invisible="True"/>
+                                        <field name="image" invisible="True"/>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                        
+                        <page name='internal_notes' string="Internal Notes">
+                            <field name="comment" placeholder="Internal note..."/>
+                        </page>
+                        
+                        <page name='sales_purchases' string="Sales &amp; Purchases">
+                            <group name="container_row_2">
+                                <group string="Sale" name="sale">
+                                    <field name="customer"/>
+                                    <field name="user_id"/>
+                                </group>
+                                <group string="Purchase" name="purchase">
+                                    <field name="supplier"/>
+                                </group>
+                                <group string="Misc">
+                                    <field name="ref"/>
+                                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                                    <field name="industry_id" attrs="{'invisible': [('is_company', '=', False)]}" options="{'no_create': True}"/>
+                                     <field name="health_number" />
+                                    <field name="red_label_number" />
+                                </group>
+
+                                <group string="Information">
+                                    <field name="health_number" />
+                                    <field name="cnuf" />
+                                    <field name="asset" />
+                                    <field name="siret" />
+                                    <field name="rcs" />
+                                    <field name="vat" placeholder="e.g. FR0477472701"/>
+                                    <field name="naf" />
+                                    <field name="code_ean" />
+                                </group>
+
+                            </group> 
+                            <!--
+                            <group string="Etiquette">
+                                    <field name="company_name_etiq" />
+                                    <field name="company_city_etiq" /> 
+                                    <field name="etiq_mention" /> 
+                                    <field name="code_ean128" />   
+                                    <field name="compteur_ean128" />
+                                    <field name="label_model_id" />   
+                                    <field name="etiq_printer" />                     
+                            </group> 
+                            -->
+                        </page>
+                        
+                        <!--<xpath expr="//page[@name='sales_purchases']" position="after">-->
+                        <page name="etiquette" string="Etiquette" >
+                            <group name="etiquette_row">
+                                <field name="company_name_etiq" />
+                                <field name="company_city_etiq" /> 
+                                <field name="etiq_mention" /> 
+                            </group>  
+                            <group name="etiquette_row_2">
+                            <field name="code_ean128" />   
+                                <field name="compteur_ean128" />
+                                <!--<field name="label_model_id" />   
+                                <field name="etiq_printer" />-->   
+                            </group>
+                        </page>
+                        <!--</xpath>-->
+                        
+                    </notebook>
+                </sheet>
+  
+                </form>
+            </field>
+        </record>
+  
+        <record id="action_hubi_partner_establishment" model="ir.actions.act_window" >
+            <field name="name">Establishment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="context">{'default_is_company': 1,'default_customer': 0,'default_supplier': 0, 'default_company_type': 'company'}</field>
+            <field name="search_view_id" ref="search_establishment"/>
+            
+            <field name="domain">[('is_company', '=', True), ('customer','=',False), ('supplier','=',False)]</field> 
+            <field name="view_type">form</field>        
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_establishment_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_partner_establishment')})]"/>
+        </record>
+        
+        <!-->
+        <record id="action_hubi_establishment" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_partner_establishment"/>
+            <field name="act_window_id" ref="action_hubi_partner_establishment"/>
+        </record>-->
+ 
+    
+    </data>
+</odoo>

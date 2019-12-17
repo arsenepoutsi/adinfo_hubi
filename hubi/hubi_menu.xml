@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Top menu item -->
+    <menuitem id="menu_hubi" name="Hubi" sequence="200" web_icon="hubi,static/description/iconhubi.png"/>
+
+        <menuitem id="menu_hubi_sales" name="Sales" sequence="10" parent="menu_hubi" />
+			<menuitem id="menu_hubi_sales_documents" name="Documents" parent="menu_hubi_sales" sequence="1"/>
+				<menuitem id="menu_hubi_sale_quotations" sequence="10" parent="menu_hubi_sales_documents" action="sale.action_quotations"  />
+				<menuitem id="menu_hubi_sale_orders" sequence="20" parent="menu_hubi_sales_documents" action="sale.action_orders"  />
+				<menuitem id="menu_hubi_sale_orders_invoice" sequence="30" parent="menu_hubi_sales_documents" action="sale.action_orders_to_invoice"  />
+				<menuitem id="menu_hubi_sale_orders_create_invoice" sequence="40" parent="menu_hubi_sales_documents" action="hubi.action_hubi_create_invoiceperiod"  />
+                <menuitem id="menu_hubi_packing_preparation" sequence="50" parent="menu_hubi_sales_documents" action="hubi.action_hubi_packing_preparation"  />
+
+			<menuitem id="menu_hubi_sales_reports" name="Reports" parent="menu_hubi_sales" sequence="2"/>
+				<menuitem id="menu_hubi_sale_analysis_report" name="Sale Order Analysis" sequence="10" parent="menu_hubi_sales_reports" />
+					<menuitem id="menu_hubi_sale_order_report_price" name="Analysis Price" sequence="10" parent="menu_hubi_sale_analysis_report" action="sale.action_order_report_all"  />
+					<menuitem id="menu_hubi_sale_order_report_daily" name="Summary Daily" sequence="20" parent="menu_hubi_sale_analysis_report" action="hubi.action_hubi_saleorder_report_daily"  />
+					<menuitem id="menu_hubi_sale_order_report_delivery" name="Summary Delivery" sequence="30" parent="menu_hubi_sale_analysis_report" action="hubi.action_hubi_saleorder_report_delivery"  />
+					<menuitem id="menu_hubi_sale_order_report_weight" name="Summary Weight" sequence="40" parent="menu_hubi_sale_analysis_report" action="hubi.action_hubi_saleorder_report_weight"  />
+					<menuitem id="menu_hubi_sale_order_report_carrier" name="Summary Carrier" sequence="50" parent="menu_hubi_sale_analysis_report" action="hubi.action_hubi_saleorder_report_carrier"  />
+					<menuitem id="menu_hubi_sale_order_report_reference" name="Summary Invoice Order" sequence="60" parent="menu_hubi_sale_analysis_report" action="hubi.action_hubi_saleorder_report_reference"  />
+				<menuitem id="menu_hubi_sale_team_report" sequence="20" parent="menu_hubi_sales_reports" action="sales_team.crm_team_salesteams_act"  />
+				<menuitem id="menu_hubi_sale_all_channels_report" sequence="30" parent="menu_hubi_sales_reports" action="sale.report_all_channels_sales_action"  />
+			<menuitem id="menu_hubi_sales_print_label" name="Print Label" parent="menu_hubi_sales" sequence="5"  action="hubi.action_hubi_create_print_label" />
+
+		<menuitem id="menu_hubi_billing" name="Billing" sequence="20" parent="menu_hubi" />
+			<menuitem id="menu_hubi_customer_billing" name="Customer Billing" sequence="10" parent="menu_hubi_billing" />
+				<menuitem id="menu_hubi_invoice_customer" sequence="10" parent="menu_hubi_customer_billing" action="account.action_invoice_tree1"  />
+				<!--<menuitem id="menu_hubi_invoice_customer" sequence="10" parent="menu_hubi_customer_billing" action="hubi_action_invoice_tree"  />-->
+				<menuitem id="menu_hubi_invoice_out_refund_customer" sequence="20" parent="menu_hubi_customer_billing" action="account.action_invoice_out_refund"  />
+				<menuitem id="menu_hubi_account_payments_customer" sequence="30" parent="menu_hubi_customer_billing" action="account.action_account_payments"  />
+				<menuitem id="menu_hubi_creditnote_customer" sequence="40" parent="menu_hubi_customer_billing" action="hubi.action_hubi_prepare_creditnote"  />
+
+			<menuitem id="menu_hubi_supplier_billing" name="Supplier Billing" sequence="20" parent="menu_hubi_billing" />
+				<menuitem id="menu_hubi_invoice_supplier" sequence="10" parent="menu_hubi_supplier_billing" action="account.action_invoice_tree2"  />
+				<menuitem id="menu_hubi_invoice_in_refund_supplier" sequence="20" parent="menu_hubi_supplier_billing" action="account.action_invoice_in_refund"  />
+				<menuitem id="menu_hubi_account_payments_supplier" sequence="30" parent="menu_hubi_supplier_billing" action="account.action_account_payments_payable"  />
+
+			<menuitem id="menu_hubi_account" name="Accounting" sequence="25" parent="menu_hubi_billing" />
+				<menuitem id="menu_hubi_account_moves_all" sequence="10" parent="menu_hubi_account" action="account.action_account_moves_all_a"  />
+				<menuitem id="menu_hubi_payment_transfer" name="Payment Transfer" sequence="15" parent="menu_hubi_account" action="action_hubi_account_payments_transfert"  />
+				<menuitem id="menu_hubi_transfert_compta" name="Accounting Transfer" sequence="20" parent="menu_hubi_account" action="hubi.action_hubi_transfert_compta"  />
+            <!--
+            <menuitem id="menu_hubi_manual_reconciliation" sequence="20" parent="menu_hubi_account" action="account.action_manual_reconciliation"  />
+            -->
+
+
+			<menuitem id="menu_hubi_report_billing" name="Report Billing" sequence="30" parent="menu_hubi_billing" />
+				<menuitem id="menu_hubi_invoice_report" name="Invoice Analysis" sequence="20" parent="menu_hubi_report_billing" />
+					<menuitem id="menu_hubi_invoice_report_price" name="Analysis Price" sequence="10" parent="menu_hubi_invoice_report" action="account.action_account_invoice_report_all"  />
+					<menuitem id="menu_hubi_invoice_report_weight" name="Analysis Weight" sequence="20" parent="menu_hubi_invoice_report" action="hubi.action_hubi_invoice_report_weight"  />
+					<menuitem id="menu_hubi_invoice_report_detail" name="Analysis Detail" sequence="30" parent="menu_hubi_invoice_report" action="hubi.action_hubi_invoice_report_detail"  />
+					<menuitem id="menu_hubi_invoice_report_free" name="Analysis free Product" sequence="40" parent="menu_hubi_invoice_report" action="hubi.action_hubi_invoice_report_free"  />
+
+                <!--<menuitem id="menu_hubi_invoice_list" name="Invoice List" sequence="30" parent="menu_hubi_report_billing" />
+                    <menuitem id="menu_hubi_invoice_list_customer" name="Customer Invoice List" sequence="10" parent="menu_hubi_invoice_list" action="hubi.action_send_email_invoice_customer"  />
+				-->
+				<!-- Partie comptable en commentaire FP20190128
+				<menuitem id="menu_hubi_account_report" name="Account Report" sequence="40" parent="menu_hubi_report_billing" />
+					<menuitem id="menu_hubi_FEC_report" sequence="10" parent="menu_hubi_account_report" action="l10n_fr_fec.account_fr_fec_action"  />
+					<menuitem id="menu_hubi_print_journal" sequence="10" parent="menu_hubi_account_report" action="account.action_account_print_journal_menu"  />
+					<menuitem id="menu_hubi_partner_ledger" sequence="20" parent="menu_hubi_account_report" action="account.action_account_partner_ledger_menu"  />
+					<menuitem id="menu_hubi_general_ledger" sequence="30" parent="menu_hubi_account_report" action="account.action_account_general_ledger_menu"  />
+					<menuitem id="menu_hubi_balance_report" sequence="40" parent="menu_hubi_account_report" action="account.action_account_balance_menu"  />
+					<menuitem id="menu_hubi_report_bs" sequence="50" parent="menu_hubi_account_report" action="account.action_account_report_bs"  />
+					<menuitem id="menu_hubi_report_pl" sequence="60" parent="menu_hubi_account_report" action="account.action_account_report_pl"  />
+					<menuitem id="menu_hubi_aged_balance" sequence="70" parent="menu_hubi_account_report" action="account.action_account_aged_balance_view"  />
+					<menuitem id="menu_hubi_account_tax_report" sequence="80" parent="menu_hubi_account_report" action="account.action_account_tax_report"  />
+				-->
+
+        <menuitem id="menu_hubi_lots" name="Lots" sequence="25" parent="menu_hubi" />
+            <menuitem id="menu_hubi_lots_serial_numbers" name="Lots Serial numbers" sequence="10" parent="menu_hubi_lots" action="stock.action_production_lot_form" />
+            <menuitem id="menu_hubi_lots_operation_type" name="Operation Type" sequence="20" parent="menu_hubi_lots" action="stock.action_picking_type_list" />
+            <menuitem id="menu_hubi_lots_route" name="Route" sequence="30" parent="menu_hubi_lots" action="stock.action_routes_form" />
+
+        <menuitem id="menu_hubi_master_datas" name="Master Datas" sequence="30" parent="menu_hubi" />
+            <menuitem id="menu_hubi_customers" name="Customer" sequence="10" parent="menu_hubi_master_datas" action="hubi.action_hubi_partner_customer" />
+            <menuitem id="menu_hubi_suppliers" name="Suppliers" sequence="20" parent="menu_hubi_master_datas" action="hubi.action_hubi_partner_supplier" />
+            <menuitem id="menu_hubi_establishments" name="Establishment" sequence="30" parent="menu_hubi_master_datas" action="hubi.action_hubi_partner_establishment" />
+
+            <menuitem id="menu_hubi_products" name="Product" sequence="40" parent="menu_hubi_master_datas"/>
+                <menuitem id="menu_hubi_all_products" name="Product" sequence="10" parent="menu_hubi_products" action="hubi.action_hubi_product_template" />
+                <menuitem id="menu_hubi_sellable_products" name="Sellable Product" sequence="20" parent="menu_hubi_products" action="hubi.action_hubi_sellable_product_template" />
+                <menuitem id="menu_hubi_purchasable_products" name="Purchasable Product" sequence="30" parent="menu_hubi_products" action="hubi.action_hubi_purchasable_product_template" />
+
+            <!--<menuitem id="menu_hubi_components" name="Component" sequence="30" parent="menu_hubi_master_datas" action="mrp.mrp_bom_form_action" />-->
+            <menuitem id="menu_hubi_components" name="Component" sequence="50" parent="menu_hubi_master_datas" action="action_hubi_mrp_bom_form" />
+            <menuitem id="menu_hubi_prices_list" name="PricesList" sequence="60" parent="menu_hubi_master_datas" action="hubi.action_hubi_product_pricelist" />
+
+
+
+
+
+
+
+        <menuitem id="menu_hubi_datas" name="Datas" sequence="80" parent="menu_hubi" />
+            <!--<menuitem id="menu_hubi_shippers" name="Shipper" sequence="10" parent="menu_hubi_datas" action="hubi.action_hubi_shipper" />-->
+            <menuitem id="menu_hubi_shippers" name="Shipper" sequence="10" parent="menu_hubi_datas" action="delivery.action_delivery_carrier_form" />
+            <menuitem id="menu_hubi_sales_team" name="Sales Team" sequence="10" parent="menu_hubi_datas" action="sales_team.sales_team_config_action" />
+
+            <menuitem id="menu_hubi_datas_location" name="Locations" sequence="20" parent="menu_hubi_datas" />
+                <menuitem id="menu_hubi_department" name="Departments" sequence="10" parent="menu_hubi_datas_location" action="hubi.action_hubi_department" />
+                <menuitem id="menu_hubi_country" name="Country" sequence="20" parent="menu_hubi_datas_location" action="base.action_country" />
+
+            <menuitem id="menu_hubi_datas_product" name="Products" sequence="20" parent="menu_hubi_datas" />
+                <menuitem id="menu_hubi_product_category" name="Category" sequence="10" parent="menu_hubi_datas_product" action="product.product_category_action_form" />
+                <menuitem id="menu_hubi_product_unity" name="Unity" sequence="20" parent="menu_hubi_datas_product" action="product.product_uom_form_action" />
+                <menuitem id="menu_hubi_product_category_unity" name="Category Unity" sequence="30" parent="menu_hubi_datas_product" action="product.product_uom_categ_form_action" />
+                <menuitem id="menu_hubi_product_family" name="Families" sequence="40" parent="menu_hubi_datas_product" action="hubi.action_hubi_product_family" />
+
+            <menuitem id="menu_hubi_datas_partner" name="Partners" sequence="30" parent="menu_hubi_datas" />
+                <menuitem id="menu_hubi_family" name="Families" sequence="10" parent="menu_hubi_datas_partner" action="hubi.action_hubi_partner_family" />
+                <menuitem id="menu_hubi_partner_category" name="Category" sequence="20" parent="menu_hubi_datas_partner" action="base.action_partner_category_form" />
+                <menuitem id="menu_hubi_partner_civility" name="Civility" sequence="30" parent="menu_hubi_datas_partner" action="base.action_partner_title_contact" />
+
+            <menuitem id="menu_hubi_datas_bank" name="Banks" sequence="40" parent="menu_hubi_datas" />
+                <menuitem id="menu_hubi_bank" name="Banks" sequence="10" parent="menu_hubi_datas_bank" action="base.action_res_bank_form" />
+                <menuitem id="menu_hubi_bank_account" name="Banks Accounts" sequence="20" parent="menu_hubi_datas_bank" action="base.action_res_partner_bank_account_form" />
+
+            <menuitem id="menu_hubi_datas_billing" name="Billing" sequence="50" parent="menu_hubi_datas" />
+                <menuitem id="menu_hubi_payment_term" name="Payment Term" sequence="10" parent="menu_hubi_datas_billing" action="account.action_payment_term_form" />
+                <menuitem id="menu_hubi_payment_mode" name="Payment Mode" sequence="15" parent="menu_hubi_datas_billing" action="hubi.action_hubi_payment" />
+                <menuitem id="menu_hubi_datas_account" name="Account" sequence="20" parent="menu_hubi_datas_billing" action="account.action_account_form" />
+                <menuitem id="menu_hubi_tax" name="Tax" sequence="30" parent="menu_hubi_datas_billing" action="account.action_tax_form" />
+                <menuitem id="menu_hubi_account_fiscal_position" name="Account Fiscal Position" sequence="40" parent="menu_hubi_datas_billing" action="account.action_account_fiscal_position_form" />
+                <menuitem id="menu_hubi_account_journal" name="Account Fiscal Journal" sequence="50" parent="menu_hubi_datas_billing" action="account.action_account_journal_form" />
+
+        <menuitem id="menu_hubi_config" name="Configuration" sequence="100" parent="menu_hubi" />
+            <menuitem id="menu_hubi_module_option" name="Module_option" sequence="10" parent="menu_hubi_config"  action="hubi.action_hubi_module_option" />
+            <menuitem id="menu_hubi_config_parameter" name="Configuration Parameter" sequence="20" parent="menu_hubi_config"  action="base_setup.action_general_configuration" />
+            <menuitem id="menu_hubi_general_settings" name="General Settings" sequence="30" parent="menu_hubi_config"  action="hubi.action_hubi_general_setting" />
+            <menuitem id="menu_hubi_sent_mail" name="Sent mails" sequence="40" parent="menu_hubi_config"  action="mail.action_view_mail_message" />
+
+    <record id="make_invisible" model="res.groups">
+        <field name="name">Invisible</field>
+    </record>
+
+    <record model="ir.ui.menu" id="sale.sale_menu_root">
+        <field name="groups_id" eval="[(6,0,[ref('make_invisible')])]"/>
+    </record>
+    <record model="ir.ui.menu" id="stock.menu_stock_root">
+        <field name="groups_id" eval="[(6,0,[ref('make_invisible')])]"/>
+    </record>
+    <record model="ir.ui.menu" id="hubi_bom.menu_mrp_root">
+        <field name="groups_id" eval="[(6,0,[ref('make_invisible')])]"/>
+    </record>
+    <record model="ir.ui.menu" id="account.menu_finance">
+        <field name="groups_id" eval="[(6,0,[ref('make_invisible')])]"/>
+    </record>
+
+
+</odoo>

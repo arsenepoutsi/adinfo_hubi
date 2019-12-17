@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    <record id="wiz_create_print_label" model="ir.ui.view">
+        <field name="name">wiz.createprintlabel.form1</field>
+        <field name="model">wiz_create_print_label</field>
+        <field name="arch" type="xml">
+            <form string="Create Print Label">
+                <div class="oe_title">
+                    <group>
+                        <group>
+                        <field name="packaging_date"  />
+                        </group>
+                        <group>
+                        <field name="sending_date" />
+                        </group>
+                    </group>
+                
+                    <group>
+                        <group>
+                            <field name="partner_id" domain="[('customer', '=', True), ('parent_id', '=', False)]"  />
+                            <field name="carrier_id" />
+                        </group>
+                        <group>
+                            <field name="etabexp_id" domain="[('is_company','=',1), ('customer','=',False), ('supplier','=',False)]"/>
+                            <field name="health_number" readonly="1" />
+                            <field name="code_128"  />
+                        </group>
+                    </group>
+                    
+                    <group>  
+                        <group>                  
+                            <label class="oe_edit_only" for="category_id" string="Category"/>
+                            <field name="category_id" class="oe_edit_only" nolabel="1"/>
+                            <label class="oe_edit_only" for="caliber_id" string="Caliber"/>
+                            <field name="caliber_id" class="oe_edit_only" nolabel="1"/>
+                            <label class="oe_edit_only" for="packaging_id" string="Packaging"/>
+                            <field name="packaging_id" class="oe_edit_only" nolabel="1"/>
+                    
+                            <field name="product_id"  />
+                        </group>
+                        <group>
+                            <field name="code_barre"  />
+                            
+                            <field name="pds"  />
+                            <field name="nb_mini"  />
+                            <field name="numlot"  />
+                            <field name="date_dluo"  />                        
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <field name="qte"  />
+                        <field name="color_etiq"  />
+                        <field name="label_id"  />
+                        <field name="printer_id" />
+                    </group>
+                    
+                </div>
+                <separator />
+
+                <footer>
+                    <button string="Create and Print Label" type="object" name="create_print_label"
+                        default_focus="1" class="oe_link"/>
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hubi_create_print_label" model="ir.actions.act_window">
+        <field name="name">Create Print Label</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">wiz_create_print_label</field>
+        <field name="view_type">form</field>            
+        <field name="view_id" ref="wiz_create_print_label"/>        
+        <field name="view_mode">tree,form</field>
+        <field name="target">new</field>
+    </record> 
+    
+    </data>
+ 
+</odoo>

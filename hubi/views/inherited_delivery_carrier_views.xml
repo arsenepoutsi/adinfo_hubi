@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="hubi_delivery_carrier" model="ir.ui.view">
+        <field name="name">hubi.delivery.carrier.form</field>
+        <field name="model">delivery.carrier</field>
+        <field name="inherit_id" ref="delivery.view_delivery_carrier_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <link rel="stylesheet" href="/hubi/static/src/css/style.css"/>
+            </xpath>
+                
+            <xpath expr="//page[@name='destination']" position="after">
+                <page name="address" string="Address">
+                    <group>
+                        <group  name="shipper_row_1">
+                            <field name="agency_number"/>
+                            <field name="agency_city"/>
+                            <field name="street"/>
+                            <field name="street2"/>
+                            <field name="zip"/>
+                            <field name="city"/>
+                            <field name="department"/>
+                        </group>
+                        <group  name="shipper_row_2">
+                            <field name="contact_name"/>
+                            <field name="phone"/>
+                            <field name="mobile"/>
+                            <field name="fax"/>
+                            <field name="mail"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="account"/>
+                        <field name="recipient"/>
+                        <div>
+                            <label string="The Color is " class="oe_magenta"  attrs="{'invisible': [('color_carrier', '!=', '#FF00FF')]}"/>
+                            <label string="The Color is " class="oe_blue"  attrs="{'invisible': [('color_carrier', '!=', '#0000FF')]}"/>
+                            <label string="The Color is " class="oe_yellow"  attrs="{'invisible': [('color_carrier', '!=', '#FFFF00')]}"/>
+                            <label string="The Color is " class="oe_red"  attrs="{'invisible': [('color_carrier', '!=', '#FF0000')]}"/>
+                            <label string="The Color is " class="oe_green"  attrs="{'invisible': [('color_carrier', '!=', '#008000')]}"/>
+                            <label string="The Color is " class="oe_brown"  attrs="{'invisible': [('color_carrier', '!=', '#D2691E')]}"/>
+                            <label string="The Color is " class="oe_white"  attrs="{'invisible': [('color_carrier', '!=', '#FFFFFF')]}"/>
+                            <label string="The Color is " class="oe_grey"  attrs="{'invisible': [('color_carrier', '!=', '#CCCCCC')]}"/>
+                            <label string="The Color is " class="oe_pink"  attrs="{'invisible': [('color_carrier', '!=', '#FFC0CB')]}"/>
+                            <label string="The Color is " class="oe_white"  attrs="{'invisible': [('color_carrier', '!=', False)]}"/>
+                        </div>
+                                                          
+                        <field name="color_carrier" nolabel="1" />
+                       
+                    </group>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+    
+
+    
+ 
+</odoo>

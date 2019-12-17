@@ -1,0 +1,6 @@
+"id","name","reference","parent_id/id","shell"
+"product.product_category_all","Huîtres","H","","True"
+"product.product_category_1","Fines","HF","product.product_category_all","True"
+"__export__.product_category_3_7fc0e75b","Moules","M","","True"
+"__export__.product_category_4_72e2c6e6","Divers","D","","True"
+"__export__.product_category_5_4b4b3ff7","Caviar","CA","","True"

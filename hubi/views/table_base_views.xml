@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="department_search" model="ir.ui.view">
+        <field name="name">department.search</field>
+        <field name="model">res.country.state</field>
+        <field name="arch" type="xml">
+            <search string="Search department">
+                <field name="name" />
+                <field name="code" />
+                <filter string="France" name="country" domain="[('country_id.code','=','FR')]"/>
+                <separator/>                
+            </search>
+        </field>
+    </record>
+   
+    <record id="view_hubi_department_tree" model="ir.ui.view" >
+            <field name="name">hubi.department.tree</field>
+            <field name="priority">1</field>
+            <field name="model">res.country.state</field>        
+            <field name="arch" type="xml">
+                <tree string="Department" default_order = "code" import="false" create="true">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="country_id"/>
+                </tree>
+            </field>
+        </record>
+    
+    <record id="hubi_department_form" model="ir.ui.view">
+        <field name="name">hubi.department.form</field>
+        <field name="model">res.country.state</field>
+        <field name="arch" type="xml">
+            <form string="Department">
+                <header>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <H1>
+                            <field name="name" default_focus="1" placeholder="Name of the department"/>                             
+                        </H1>
+                    </div> 
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="country_id"/>
+                        </group>
+
+                    </group>
+                </sheet>
+                               
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_hubi_department" model="ir.actions.act_window">
+        <field name="name">Department</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.country.state</field>
+        <field name="view_type">form</field>            
+        <field name="search_view_id" ref="department_search"/>
+        <field name="context">{"search_default_country":1}</field>
+                 
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Aide
+            </p>
+            <p>
+                Listing of the departments.
+            </p>
+        </field>
+    </record>
+    
+    <record id="family_partner_search" model="ir.ui.view">
+        <field name="name">family.search</field>
+        <field name="model">hubi.family</field>
+        <field name="arch" type="xml">
+            <search string="Search family">
+                <field name="name" />
+                <filter domain="[('level', '=', 'Type')]" name="type" string="Type"/> 
+                <filter domain="[('level', '=', 'Job')]" name="job" string="Job"/>   
+                <filter domain="[('level', '=', 'Family')]" name="family" string="Family"/> 
+                <separator/>                
+                <group expand="0" string="Group by">
+                    <filter context="{'group_by':'level'}" domain="[]" string="Level"/>
+                </group>               
+            </search>
+        </field>
+    </record>
+    
+    <record id="family_product_search" model="ir.ui.view">
+        <field name="name">family.search</field>
+        <field name="model">hubi.family</field>
+        <field name="arch" type="xml">
+            <search string="Search family">
+                <field name="name" />
+                <filter domain="[('level', '=', 'Caliber')]" name="family" string="Caliber"/>
+                <filter domain="[('level', '=', 'Packaging')]" name="family" string="Packaging"/>             
+                <separator/>                
+                <group expand="0" string="Group by">
+                    <filter context="{'group_by':'level'}" domain="[]" string="Level"/>
+                </group>               
+            </search>
+        </field>
+    </record>
+   
+    <record id="view_hubi_family_tree" model="ir.ui.view" >
+            <field name="name">hubi.family.tree</field>
+            <field name="priority">1</field>
+            <field name="model">hubi.family</field>        
+            <field name="arch" type="xml">
+                <tree string="Family" default_order = "name" import="false" create="true">
+                    <field name="name"/>
+                    <field name="reference"/>
+                    <field name="default_value"/>
+                    <field name="level"/>
+                    <field name="main_level"/>
+                    <field name="company_id" groups="base.group_multi_company" />
+                </tree>
+            </field>
+    </record>
+    
+    <record id="hubi_family_form" model="ir.ui.view">
+        <field name="name">hubi.family.form</field>
+        <field name="model">hubi.family</field>
+        <field name="arch" type="xml">
+            <form string="Family">
+                <header>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <H1>
+                            <field name="name" default_focus="1" placeholder="Name of the family"/>                             
+                        </H1>
+                    </div> 
+                    <group>
+                        <group>
+                            <field name="main_level" />
+                            <field name="level"  attrs="{'invisible': True}"/>
+                            
+                            <field name="level_partner" attrs="{'invisible': [('main_level', '!=', 'Partner')]}" />
+                            <field name="level_product" attrs="{'invisible': [('main_level', '!=', 'Product')]}" />
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
+                            <field name="reference"/>
+                            <field name="default_value"/>
+                            <field name="weight" attrs="{'invisible': [('level', '!=', 'Packaging')]}"/>
+                            <field name="sale_ok" attrs="{'invisible': [('level', '!=', 'Packaging')]}"/>
+                            <field name="purchase_ok" attrs="{'invisible': [('level', '!=', 'Packaging')]}"/>
+                        </group>
+
+                    </group>
+                </sheet>
+                               
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_hubi_partner_family" model="ir.actions.act_window">
+        <field name="name">Family</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hubi.family</field>
+        <field name="view_type">form</field>            
+        <field name="search_view_id" ref="family_partner_search"/> 
+        <field name="context">{'group_by':'level', 'default_main_level': 'Partner'}</field>  
+
+        <field name="domain">[('main_level', '=', "Partner")]</field>      
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Help
+            </p>
+            <p>
+                Listing of the families.
+            </p>
+        </field>
+    </record>
+    
+    <record id="action_hubi_product_family" model="ir.actions.act_window">
+        <field name="name">Family</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hubi.family</field>
+        <field name="view_type">form</field>            
+        <field name="search_view_id" ref="family_product_search"/> 
+        <field name="context">{'group_by':'level', 'default_main_level': 'Product'}</field>  
+        <!--<field name="domain">['&amp;',('main_level', '=', "Product"), '|',('company_id', '=', uid),('company_id','=',False)]</field>--> 
+        <field name="domain">[('main_level', '=', "Product")]</field>
+          
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Aide
+            </p>
+            <p>
+                Listing of the families.
+            </p>
+        </field>
+    </record>
+
+ 
+</odoo>

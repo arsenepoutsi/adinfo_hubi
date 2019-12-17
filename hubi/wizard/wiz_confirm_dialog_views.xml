@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record id="wiz_confirm_dialog_form" model="ir.ui.view">
+		<field name="name">wiz.confirmdialog.form</field>
+		<field name="model">wiz.confirm.dialog</field>
+		<field name="arch" type="xml">
+			<form string="Confirm Dialog">
+			    <div class="oe_title">
+                    <!--<label for="confirm_message" />-->
+                    <h2>
+                        <field name="confirm_message"  colspan="6" readonly="1"/>
+                    </h2>
+                    <separator />
+                    <!--<label for="code_message" />-->
+                    <h2>
+                        <field name="code_message"  colspan="6" readonly="1" invisible="1"/>
+                    </h2>
+                    <separator />
+				</div>
+				<footer>
+				    <button name= "wiz_update_product_etiq" string="OK"  type="object" attrs="{'invisible': [('code_message', '!=', 'label-etiq')]}" class="oe_link"/>
+				    <button name= "wiz_create_credit_note" string="OK"  type="object" attrs="{'invisible': [('code_message', '!=', 'create-credit_note')]}" class="oe_link"/>
+					<button name= "wiz_prepare_order_line_print_label" string="OK"  type="object" attrs="{'invisible': [('code_message', '!=', 'sale_order_print_label')]}" class="oe_link"/>
+					<button name= "wiz_update_sale_batch_number" string="OK"  type="object" attrs="{'invisible': [('code_message', '!=', 'sale_batch-number')]}" class="oe_link"/>
+					<button string="Cancel" special="cancel" class="oe_link"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+<!--
+	<act_window
+		id="action_wiz_confirm_dialog2"
+		multi="True"
+		key2="client_action_multi"
+		name="Confirm Dialog"
+		res_model="wiz.confirm.dialog"
+		src_model="product.template"
+		view_mode="form"
+		target="new"
+		view_type="form"
+		view_id="wiz_confirm_dialog_form">	
+	</act_window>-->
+
+
+	<record id="action_wiz_confirm_dialog" model="ir.actions.act_window">
+        <field name="name">Confirm Dialog</field>
+        <field name="res_model">wiz.confirm.dialog</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <!--<field name="view_id" ref="wiz_confirm_dialog_form" />-->
+        <field name="target">new</field>
+        <!--<field name="context">{'default_confirm_message': context.get('confirm_message', False), 'default_code_message': context.get('code_message', False), }</field>-->
+        
+    </record> 
+
+
+
+</odoo>

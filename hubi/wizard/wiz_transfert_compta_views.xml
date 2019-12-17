@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    <record id="wiz_transfert_compta" model="ir.ui.view">
+        <field name="name">wiz.transfertcompta.form1</field>
+        <field name="model">wiz.transfertcompta</field>
+        <field name="arch" type="xml">
+            <form string="Transfert Compta">
+                <!--> 
+                <div class="oe_title">
+                
+                    <label for="date_start" />
+                    <h2>
+                        <field name="date_start" colspan="6" />
+                    </h2>
+                    <separator />
+                    <label for="date_end" />
+                    <h2>
+                        <field name="date_end" colspan="6" />
+                    </h2>
+                    
+                </div>
+                -->
+                <separator string="Periods"/>
+                <group>
+                    <group>
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                    </group>
+                    <group/>
+                </group>
+                
+                <separator string="Journals"/>
+                <group>
+                    <field name="journal_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                </group>
+                
+                <separator string="Transfer"/>
+                <group>
+                    <group>
+                        <field string="Path" name="path_account_transfer"/>
+                        <field string="Account File" name="account_file_transfer"/>
+                        <field string="Writing File" name="writing_file_transfer"/>
+                        <field string="Mail" name="mail_accounting"/>
+                        <field string="Retransfer" name="re_transfer"/>
+                        <!--<field string="Mail model" name="template_id"/>-->
+                    </group>
+                </group>
+
+                <footer>
+                    <button string="Accounting Transfer" type="object" name="transfert_compta"
+                        default_focus="1" class="oe_link"/>
+                    <button string="Send Mail" type="object" name="send_mail_template"
+                        default_focus="1" class="oe_link"/>    
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="wiz_transfert_compta_step2" model="ir.ui.view">
+        <field name="name">wiz.transfertcompta.form2</field>
+        <field name="model">wiz.transfertcompta</field>
+        <field name="arch" type="xml">
+            <form string="Create Price">
+                <field name="message" colspan="6" readonly="1" nolabel="1" />
+                <footer>
+                    <button string="OK" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hubi_transfert_compta" model="ir.actions.act_window">
+        <field name="name">Transfert Compta</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">wiz.transfertcompta</field>
+        <field name="view_type">form</field>            
+        <field name="view_id" ref="wiz_transfert_compta"/>        
+        <field name="view_mode">tree,form</field>
+        <field name="target">new</field>
+    </record> 
+    
+    </data>
+ 
+</odoo>

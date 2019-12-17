@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="create_product_from_category_form_view" model="ir.ui.view">
+            <field name="name">create.product.from.category.form.view</field>
+            <field name="priority">1</field>
+            <field name="model">wiz.create.product.from.category</field>
+            <field name="arch" type="xml">
+                 <!-->   
+                    <header>
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                    <button string="Create_Products" type="object" name="create_product"/>
+                    </header>
+                 
+                    <button string="Create_Product" type="objet" name="create_product"/>
+                 
+                <template id="assets_backend" name="project assets" >
+       
+                    <script type="text/javascript" src="/static/src/js/import_buttons.js"></script>
+      
+                </template>
+                
+                <button class="oe_stat_button" type="object" name="create_product" icon="fa-arrows-v" string="create_product" widget="statinfo"/>
+        -->
+  
+                <tree string="Create Product From Category" name='Create_Product_From_Category' editable="top">
+                    <field name="categ_id" invisible="1"/>
+                    <field name="categ_reference" readonly="1"/>
+                    <field name="categ_name" readonly="1"/>
+                    <field name="caliber_id" invisible="1"/>
+                    <field name="packaging_id" invisible="1"/>
+                    <field name="caliber_name" readonly="1"/>
+                    <field name="packaging_name" readonly="1"/>
+                    <field name="weight"/>
+                    <field name="quantity"/>
+                    <field name="price"/>
+                    <field name="etiq_printer"/>
+                    <field name="account_income_id" invisible="1"/>
+                    <field name="account_expense_id" invisible="1"/>
+                    <button string="Cancel" class="oe_link" special="cancel" icon="fa-times-circle text-danger"/>
+                    <button string="Create_Product" type="object" name="create_product" icon="fa-paper-plane text-success"/>
+                        <!--
+                        <button string="fa-repeat" class="oe_link" special="cancel" icon="fa-repeat text-success" />
+                        <button string="fa-list" class="oe_link" special="cancel" icon="fa-list" />
+                        <button string="fa-archive" class="oe_link" special="cancel" icon="fa-archive" />
+                        <button string="fa-th-list" class="oe_link" special="cancel" icon="fa-th-list" />
+                        <button string="fa-sitemap" class="oe_link" special="cancel" icon="fa-sitemap" />
+                        <button string="fa-pencil-square-o" class="oe_link" special="cancel" icon="fa-pencil-square-o" />
+                        <button string="fa-book" class="oe_link" special="cancel" icon="fa-book" />
+                        <button string="fa-usd" class="oe_link" special="cancel" icon="fa-usd" />
+                        <button string="fa-files-o" class="oe_link" special="cancel" icon="fa-files-o" />
+                        <button string="fa-plus" class="oe_link" special="cancel" icon="fa-plus" />
+                        <button string="fa-minus" class="oe_link" special="cancel" icon="fa-minus" />
+                        <button string="fa-search-plus" class="oe_link" special="cancel" icon="fa-search-plus" />
+                        <button string="fa-arrow-right" class="oe_link" special="cancel" icon="fa-arrow-right" />
+                        <button string="fa-cubes" class="oe_link" special="cancel" icon="fa-cubes" />
+                        <button string="fa-check-square" class="oe_link" special="cancel" icon="fa-check-square" />
+                        <button string="fa-code" class="oe_link" special="cancel" icon="fa-code" />
+                        <button string="fa-dropbox" class="oe_link" special="cancel" icon="fa-dropbox" />
+                        -->
+                         
+                </tree>
+                    
+            </field>
+    </record>
+
+    <record id="create_product_from_category_search" model="ir.ui.view">
+        <field name="name">create.product.from.category.search</field>
+        <field name="model">wiz.create.product.from.category</field>
+        <field name="arch" type="xml">
+            <search string="Create Product">
+                <!--<field name="product_id" />-->
+                <filter domain="[('caliber_id', '=', 'Caliber')]" name="caliber" string="Caliber"/>
+                <filter domain="[('packaging_id', '=', 'Packaging')]" name="packaging" string="Packaging"/>             
+                <separator/>                
+                <group expand="0" string="Group by">
+                    <filter context="{'group_by':'caliber_id'}" domain="[]" string="Caliber"/>
+                    <filter context="{'group_by':'packaging_id'}" domain="[]" string="Packaging"/>
+                </group>               
+            </search>
+        </field>
+    </record>
+
+<!-->    
+    <act_window
+        id="action_wiz_create_product_from_category"
+        multi="True"
+        key2="client_action_multi"
+        name="Create Price From Category"
+        res_model="wiz.create.product.from.category"
+        src_model="product.category"
+        view_mode="form"
+        target="new"
+        view_type="form"
+        view_id="create_product_from_category_form_view">    
+    </act_window>
+-->    
+    
+</odoo>

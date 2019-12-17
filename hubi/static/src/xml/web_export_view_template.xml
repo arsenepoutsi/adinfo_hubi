@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates id="template" xml:space="preserve">
+
+<t t-extend="ListView.buttons">
+    <t t-jquery="button.o_list_button_add" t-operation="after">
+        <!-- <button class="btn btn-sm btn-default email_button" type="button">Send Email</button>-->
+        <button class="btn btn-sm btn-default export_treeview_xls" type="button">Export</button>
+      
+        <t t-if="widget.modelName=='account.invoice'">
+            <button class="btn btn-sm btn-primary email_button" type="button">Send Email</button>
+        </t> 
+    </t>
+</t>
+</templates>

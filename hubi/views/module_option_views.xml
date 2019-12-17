@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="moduleoption_search" model="ir.ui.view">
+        <field name="name">moduleoption.search</field>
+        <field name="model">hubi.module_option</field>
+        <field name="arch" type="xml">
+            <search string="Search modules">
+                <field name="name" />
+                <filter domain="[('state', '!=', True)]" name="inactive" string="No Active"/> 
+                <filter domain="[('state', '=', True)]" name="active" string="Active"/>               
+                <separator/>                
+                <group expand="0" string="Group by">
+                    <filter context="{'group_by':'state'}" domain="[]" string="State"/>
+                </group>
+            </search>
+        </field>
+    </record>
+   
+    <record id="view_hubi_moduleoption_tree" model="ir.ui.view" >
+        <field name="name">hubi.moduleoption.tree</field>
+        <field name="priority">1</field>
+        <field name="model">hubi.module_option</field>        
+        <field name="arch" type="xml">
+            <tree string="Module Options" default_order = "name" decoration-danger="state==True" create="true">
+                <field name="name"/>
+                <field name="state"/>
+                <field name="description"/>
+                <field name="description_other"/>
+                <field name="company_id" groups="base.group_multi_company" />
+            </tree>
+        </field>
+    </record>
+    
+    <record id="hubi_module_form" model="ir.ui.view">
+        <field name="name">hubi.module.form</field>
+        <field name="model">hubi.module_option</field>
+        <field name="arch" type="xml">
+            <form string="Options des Modules">
+                <header>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <H1>
+                            <field name="name" default_focus="1" placeholder="Nom module"/>                             
+                        </H1>
+                    </div> 
+                    <group>
+                        <group>
+                            <field name="state"/>
+                            <field name="description"/>
+                            <field name="description_other"/>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
+                        </group>
+
+                    </group>
+                </sheet>
+                               
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_hubi_module_option" model="ir.actions.act_window">
+        <field name="name">ModuleOption</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hubi.module_option</field>
+        <field name="view_type">form</field>            
+        <field name="search_view_id" ref="moduleoption_search"/>        
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Aide
+            </p>
+            <p>
+                Module des options.
+            </p>
+        </field>
+    </record>
+    
+ 
+</odoo>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+  <t t-extend="ListView.buttons">
+    <t t-jquery="button.o_list_button_add" t-operation="after">
+      <t t-if="widget.model=='wiz.search.product.line'">
+        <button class="btn btn-sm btn-primary create_price_item" type="button">Create the price-list</button>
+      </t>
+      <t t-if="widget.model=='wiz.create.product.from.category'">
+        <button class="btn btn-sm btn-primary create_product" type="button">Create the price-list</button>
+      </t>
+
+    </t>
+  </t>
+</templates>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    <record id="wiz_general_settings_form" model="ir.ui.view">
+        <field name="name">wiz.generalsettings.form</field>
+        <field name="model">wiz.general_settings</field>
+        <field name="arch" type="xml">
+            <form string="General Settings">
+                <div class="oe_title">
+                        <H1>
+                            <field name="name" placeholder="Name" readonly="1"/>  
+                            <separator/>                           
+                            <field name="company_id" readonly="1"/>                             
+                        </H1>
+                </div> 
+                <separator string="Auxiliary Accounting"/>
+                <group>
+                    <group>
+                        <field name="auxiliary_accounting"/>
+                        <field name="root_account_auxiliary_customer"/>
+                        <field name="root_account_auxiliary_supplier"/>
+                    </group>
+                    
+                </group>
+                
+                <separator string="Accounting"/>
+                <group>
+                    <group>
+                        <field name="length_account_auxiliary"/>
+                        <field name="length_account_general"/>
+                    </group>
+                    <group>
+                        <field name="complete_0_account_auxiliary"/>
+                        <field name="complete_0_account_general"/>
+                    </group>
+                </group>
+                
+                <separator string="Account Transfer"/>
+                <group>
+                    <group>
+                        <field name="type_accounting"/>
+                        <field name="path_account_transfer"/>
+                        <field name="account_file_transfer"/>
+                        <field name="writing_file_transfer"/>
+                        <field name="mail_accounting"/>
+                    </group>
+                </group>
+
+                <separator string="Various"/>
+                <group>
+                    <group>
+                        <field name="calcul_lot"/>
+                    </group>
+                </group>
+                
+                <footer>
+                    <button string="Validation" type="object" name="execute_update"
+                        default_focus="1"  class="btn btn-primary"/>
+                    <button string="Cancel" class="btn btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_hubi_general_setting" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">wiz.general_settings</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="wiz_general_settings_form"/>
+        <field name="target">inline</field>
+    </record>
+    
+    </data>
+ 
+</odoo>

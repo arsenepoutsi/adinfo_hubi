@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="email_template_accounting_transfer" model="mail.template">
+		<field name="name">Accounting_transfer</field>
+		<field name="email_from">${user.email}</field>
+		<field name="subject">Vos fichiers comptables</field>
+		<field name="model">wiz.transfertcompta</field>
+		<field name="body_html"><![CDATA[
+<p>Dear,
+You have been invited to transfer your writting from  ${object.date_start[8:10]}-${object.date_start[5:7]}-${object.date_start[0:4]} to  ${object.date_end[8:10]}-${object.date_end[5:7]}-${object.date_end[0:4]}
+ in your accounting.
+<br/>
+Best regards,
+<br/>
+${object.create_uid.signature | safe}
+</p>
+]]></field>
+	</record>
+
+	<record id="email_template_invoice" model="mail.template">
+        <field name="name">Invoice_send</field>
+        <field name="email_from">${user.email}</field>
+        <field name="subject">Your invoices</field>
+        <field name="model">account.invoice</field>
+        <field name="body_html"><![CDATA[
+<p>Dear,
+Your invoices.
+<br/>
+Best regards,
+<br/>
+${object.create_uid.signature | safe}
+</p>
+]]></field>
+    </record>
+
+    <record id="email_template_sale_order" model="mail.template">
+        <field name="name">Sale_Order_send</field>
+        <field name="email_from">${user.email}</field>
+        <field name="subject">Your sale orders</field>
+        <field name="model">sale.order</field>
+        <field name="body_html"><![CDATA[
+<p>Dear,
+Your sale orders.
+<br/>
+Best regards,
+<br/>
+${object.create_uid.signature | safe}
+</p>
+]]></field>
+    </record>
+
+</odoo>

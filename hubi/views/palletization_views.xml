@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+ 
+    <record id="hubi_palletization_form" model="ir.ui.view">
+        <field name="name">hubi.palletization.form</field>
+        <field name="model">sale.order</field>
+        <field name="priority" eval="17"/>
+        <field name="arch" type="xml">
+            <form string="Palletization">
+                <header>
+                    <button string="Create_Pallet" type="object" name="create_pallet"  class="oe_button oe_form_button oe_highlight" />
+                </header>
+                <sheet>
+                
+                    <div class="oe_title">
+                        <h1>
+                            <label for="name" string="Palletization for the Order : "/>
+                            <field name="name"  readonly="1"/>
+                        </h1>
+                        <field name="state" invisible="1"/>
+                        <field name="pricelist_id" invisible="1"/>
+                        <field name="company_id" invisible="1"/>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="partner_id" options="{'no_create': True, 'no_open': True}" readonly="1"/>
+                            <field name="partner_shipping_id" options="{'no_create': True, 'no_open': True}" groups="sale.group_delivery_invoice_address" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="date_order" readonly="1"/>
+                            <field name="carrier_id" options="{'no_create': True, 'no_open': True}" readonly="1" />
+                        </group>
+                    </group> 
+                    
+                    <notebook>
+                        <page string="Order Lines">
+                            <field name="palletization_ids" mode="tree"  > 
+                        
+                                <form string="Sales Order Lines" create="false" >
+                                    <group>
+                                        <field name="product_id" string="Product" options="{'no_create': True, 'no_open': True}" readonly="1" />
+                                        <field name="uom_qty" string="Ordered Qty" readonly="1" />
+                                        
+                                    </group>    
+                                </form>  
+                                <tree string="Sales Order Lines" editable="bottom" create="false" delete="false">
+                                    <field name="order_id" invisible="1" />
+                                    <field name="product_id" readonly="1" />
+                                    <field name="uom_qty" readonly="1" />
+                                    <field name="default_pallet_qty" string="Max Quantity" readonly="1" />
+                                    <field name="pallet_qty" readonly="1" />
+                                    <field name="residual_qty" readonly="1" />
+                                    
+                                    <button string="New_Pallet" type="object" name="new_pallet" icon="fa-th-list"/>
+                                    
+                                    
+                                    <field name="input_qty" />
+                                    <field name="input_pallet_id" options="{'no_create': True, 'no_open': True}" domain="[('order_id', '=',order_id)]"  />
+                                    <button string="Complete_Pallet" type="object" name="complete_pallet" icon="fa-cubes"/>
+                                    <field name="order_id" invisible="1" />
+                                </tree>                       
+                            </field>
+                  
+                            <field name="palletization_line_ids" mode="tree" readonly="1" >   
+                                <form string="Palletization Lines" create="false" >
+                                    <group>
+                                        <field name="pallet_no" readonly="1" />
+                                        <field name="product_id" readonly="1"/>
+                                        <field name="quantity"  />
+
+                                    </group>    
+                                </form>  
+                                <tree string="Palletization Lines" editable="bottom" create="false">
+                                    <field name="pallet_no" readonly="1"/>
+                                    <field name="product_id" readonly="1"/>
+                                    <field name="quantity" readonly="1" />
+                                    <field name="palletization_id" invisible="1"/>
+                                    <button string="Delete_Pallet" type="object" name="delete_pallet" icon="fa-minus"/>
+                                </tree>                       
+                            </field>
+                    
+                        </page>
+                    </notebook>
+          
+                </sheet>               
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_hubi_palletization" model="ir.actions.act_window">
+        <field name="name">palletization</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_type">form</field>            
+        <field name="view_mode">form</field>
+        
+    </record>
+    
+ 
+    <record id="hubi_product_pallet_form_inherited" model="ir.ui.view">
+        <field name="name">product.pallet.form.hubi.inherited</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="hubi.hubi_product_template_form_inherited"/>
+        <field eval="100" name="priority"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='deb_nomenclature']" position="after">
+                <field name="pallet_description" />
+                <field name="default_pallet_qty" />
+             </xpath>      
+        </field>
+    </record>
+ 
+</odoo>

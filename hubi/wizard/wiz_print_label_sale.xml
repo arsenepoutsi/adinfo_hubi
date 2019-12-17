@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="wiz_print_label_sale_view" model="ir.ui.view">
+        <field name="name">wiz.printlabelsale.form1</field>
+        <field name="model">wiz_print_label_sale</field>
+        <field name="arch" type="xml">
+            <form string="Print label">
+                <group col="4" colspan="6">
+                    <field name="printer_id"/>
+                    <field name="label_id" />
+                </group>
+            
+                <footer>
+                    <button string="Print" type="object" name="print_label" 
+                            default_focus="1" class="oe_link"/>
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+    
+</odoo>

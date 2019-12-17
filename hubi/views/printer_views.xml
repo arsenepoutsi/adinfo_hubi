@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_miadi_etiquette_printer_tree" model="ir.ui.view" >
+            <field name="name">miadi_etiquette.printer.tree</field>
+            <field name="priority">1</field>
+            <field name="model">hubi.printer</field>        
+            <field name="arch" type="xml">
+                <tree string="Printers" default_order = "name"  import="false" create="true">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="realname"/>
+                    <field name="adressip"/>
+                    <field name="port"/>
+                    <field name="isimpetiq"/>
+                </tree>
+            </field>
+    </record>
+    
+    <record id="miadi_etiquette_printer_form" model="ir.ui.view">
+        <field name="name">miadi_etiquette.printer.form</field>
+        <field name="model">hubi.printer</field>
+        <field name="arch" type="xml">
+            <form string="Printer">
+                <header>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <H1>
+                            <field name="name" default_focus="1" placeholder="Name of the printer"/>                             
+                        </H1>
+                    </div> 
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="realname"/>
+                            <field name="adressip"/>
+                            <field name="port"/>
+                            <field name="isimpetiq"/>
+                        </group>
+                    </group>
+                </sheet>         
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_miadi_etiquette_printer" model="ir.actions.act_window">
+        <field name="name">Printer</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hubi.printer</field>
+        <field name="view_type">form</field>
+        <field name="search_view_id" ref="view_miadi_etiquette_printer_tree"/>              
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Help
+            </p>
+            <p>
+                Listing of the printers.
+            </p>
+        </field>
+    </record>
+</odoo>

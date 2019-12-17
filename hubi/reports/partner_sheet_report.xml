@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="report_partner_sheet_address">
+		<t t-call="web.html_container">
+            <t t-foreach="docs" t-as="p">
+                
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2><span t-field="p.name" /></h2>
+                        <li> Adresse 1 : <span t-field="p.street" /></li>
+                        <li> Adresse 2 : <span t-field="p.street2" /></li>
+                        <li> Zip - City: <span t-field="p.zip" />&amp;bull;<span t-field="p.city" /></li>
+                        <li> Phone     : <span t-field="p.phone" /></li>
+                        <li> Mobile    : <span t-field="p.mobile" /></li>
+                        
+                        <t t-if="p.child_ids">
+                            <h2>Contacts - Address</h2>  
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Name</th>
+                                    <th>Address</th>
+                                    <th>Address 2</th>
+                                    <th>Zip</th>
+                                    <th>City</th>
+                                    <th>Phone</th>
+                                    <th>Mobile</th>
+                                </tr>
+                                <t t-foreach="p.child_ids" t-as="addr">
+                                    <tr>
+                                        <td> <span t-field="addr.type" /></td>
+                                        <td> <span t-field="addr.name" /></td>
+                                        <td> <span t-field="addr.street" /></td>
+                                        <td> <span t-field="addr.street2" /></td>
+                                        <td> <span t-field="addr.zip" /></td>
+                                        <td> <span t-field="addr.city" /></td>
+                                        <td> <span t-field="addr.phone" /></td>
+                                        <td> <span t-field="addr.mobile" /></td>
+                                    </tr>
+                                </t>
+                            </table>
+                        </t>    
+                            
+                        <t t-if="p.bank_ids">
+                            <h2>Banks</h2>  
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>City</th>
+                                    <th>BIC</th>
+                                    <th>RIB</th>
+                                </tr>
+                                <t t-foreach="p.bank_ids" t-as="b">
+                                    <t t-set="bank_info" t-value="b.bank_id"/>
+                                    <tr> 
+                                        <td><span t-field="b.bank_name"/></td>
+                                        <td><span t-field="bank_info.city"/></td>
+                                        <td><span t-field="bank_info.bic"/></td>
+                                        <td><span t-field="b.acc_number"/></td>
+                                    </tr>    
+                                </t>
+                            </table>
+                        </t>
+                       
+                        
+            
+                    </div>
+                </t>
+            </t>
+		</t>
+	</template>
+</odoo>

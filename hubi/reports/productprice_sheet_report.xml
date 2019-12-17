@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="report_product_sheet_price">
+		<t t-call="web.html_container">
+			<t t-foreach="docs" t-as="price">
+			    
+				<t t-call="web.external_layout">
+					<div class="page">
+						<h2><span t-field="price.name" /></h2>
+						<li> Shipping : <span t-field="price.shipping" /></li>
+						<li> Price Kg : <span t-field="price.shipping_price_kg" /></li>
+						
+						<t t-if="price.item_ids">
+						    <h2>Categories - Products</h2>  
+						    <table class="table table-bordered">
+                                <tr>
+                                    <th>Applied on</th>
+                                    <th>Category</th>
+                                    <th>Family</th>
+                                    <th>Quantity</th>
+                                    <th>Weight</th>
+                                    <th>Information</th>
+                                    <th>EAN 13</th>
+                                    <th>Color</th>
+                                    <th>Customer Reference</th>
+                                    <th>Min Quantity</th>
+                                    <th>Date Start</th>
+                                    <th>Date End</th>
+                                    <th>Price</th>
+                                </tr>
+                                <t t-foreach="price.item_ids" t-as="item">
+                                    <t t-set="product" t-value="item.product_tmpl_id"/>
+                                    <t t-set="categ" t-value="item.product_tmpl_id.categ_id"/>
+                                    <t t-set="family" t-value="product.family_id"/>
+                                    <tr>
+                                        <td> <span t-field="item.name" /></td>
+                                        <td> <span t-field="categ.name" /></td>
+                                        <td> <span t-field="family.name" /></td>
+                                        <td> <span t-field="product.quantity" /></td>
+                                        <td> <span t-field="product.weight" /></td>
+                                        <td> <span t-field="item.info_price" /></td>
+                                        <td> <span t-field="item.price_ean13" /></td>
+                                        <td> <span t-field="item.price_color" /></td>
+                                        <td> <span t-field="item.customer_ref" /></td>
+                                        <td> <span t-field="item.min_quantity" /></td>
+                                        <td> <span t-field="item.date_start" /></td>
+                                        <td> <span t-field="item.date_end" /></td>
+                                        <td> <span t-field="item.price" /></td>
+                                    </tr>
+                                </t>
+                            </table>
+                        </t>    
+                        
+					</div>
+				</t>
+			</t>
+		</t>
+	</template>
+</odoo>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="shipper_search" model="ir.ui.view">
+        <field name="name">shipper.search</field>
+        <field name="model">hubi.shipper</field>
+        <field name="arch" type="xml">
+            <search string="Search shippers">
+                <field name="name" />
+                <filter domain="[('state', '!=', True)]" name="inactive" string="No Active"/> 
+                <filter domain="[('state', '=', True)]" name="active" string="Active"/>               
+                <separator/>                
+                <group expand="0" string="Group by">
+                    <filter context="{'group_by':'department'}" domain="[]" string="State"/>
+                </group>
+            </search>
+        </field>
+    </record>
+   
+    <record id="view_hubi_shipper_tree" model="ir.ui.view" >
+            <field name="name">hubi.shipper.tree</field>
+            <field name="priority">1</field>
+            <field name="model">hubi.shipper</field>        
+            <field name="arch" type="xml">
+                <tree string="Shippers" default_order = "name"  import="false" create="true">
+                    <field name="name"/>
+                    <field name="street"/>
+                    <field name="zip"/>
+                    <field name="city"/>
+                    <field name="department"/>
+                </tree>
+            </field>
+    </record>
+    
+    <record id="hubi_shipper_form" model="ir.ui.view">
+        <field name="name">hubi.shipper.form</field>
+        <field name="model">hubi.shipper</field>
+        <field name="arch" type="xml">
+            <form string="Shippers">
+                <header>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <H1>
+                            <field name="name" default_focus="1" placeholder="Name of the shipper"/>                             
+                        </H1>
+                    </div> 
+                    <group>
+                        <group  name="shipper_row_1">
+                            <field name="agency_number"/>
+                            <field name="agency_city"/>
+                            <field name="street"/>
+                            <field name="street2"/>
+                            <field name="zip"/>
+                            <field name="city"/>
+                            <field name="department"/>
+                        </group>
+                        <group  name="shipper_row_2">
+                            <field name="contact_name"/>
+                            <field name="phone"/>
+                            <field name="mobile"/>
+                            <field name="fax"/>
+                            <field name="mail"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="account"/>
+                        <field name="recipient"/>
+                        <field name="color_shipper" widget="color" />
+                    </group>
+                </sheet>
+                               
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_hubi_shipper" model="ir.actions.act_window">
+        <field name="name">Shipper</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hubi.shipper</field>
+        <field name="view_type">form</field>            
+        <field name="search_view_id" ref="shipper_search"/>        
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Help
+            </p>
+            <p>
+                List of shippers.
+            </p>
+        </field>
+    </record>
+    
+ 
+</odoo>

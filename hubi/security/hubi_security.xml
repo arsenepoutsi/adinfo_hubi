@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  <data noupdate="1">
+    <record model="ir.rule" id="huby_family_rule">
+      <field name="name">Hubi Family multi-company</field>
+      <field name="model_id" ref="model_hubi_family"/>
+      <field name="global" eval="True"/>
+      <field name="domain_force"> ['|',('company_id', 'in', [c.id for c in user.company_ids]),('company_id','=',False)]</field>
+      <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+    
+    <record model="ir.rule" id="huby_module_option_rule">
+      <field name="name">Hubi Module Option multi-company</field>
+      <field name="model_id" ref="model_hubi_module_option"/>
+      <field name="global" eval="True"/>
+      <field name="domain_force"> ['|',('company_id', 'in', [c.id for c in user.company_ids]),('company_id','=',False)]</field>
+      <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record model="ir.rule" id="huby_payment_mode_rule">
+      <field name="name">Hubi Payment Mode multi-company</field>
+      <field name="model_id" ref="model_hubi_payment_mode"/>
+      <field name="global" eval="True"/>
+      <field name="domain_force"> ['|',('company_id', 'in', [c.id for c in user.company_ids]),('company_id','=',False)]</field>
+      <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+    
+    <record model="ir.rule" id="huby_res_partner_rule">
+      <field name="name">Hubi Partner multi-company</field>
+      <field name="model_id" ref="model_res_partner"/>
+      <field name="global" eval="True"/>
+      <field name="domain_force"> ['|',('company_id', 'in', [c.id for c in user.company_ids]),('company_id','=',False)]</field>
+      <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+    
+    <record model="ir.rule" id="huby_product_product_rule">
+      <field name="name">Hubi Product multi-company</field>
+      <field name="model_id" ref="model_product_product"/>
+      <field name="global" eval="True"/>
+      <field name="domain_force"> ['|',('company_id', 'in', [c.id for c in user.company_ids]),('company_id','=',False)]</field>
+      <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+    
+  </data>
+</odoo>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="wiz_print_label_view" model="ir.ui.view">
+        <field name="name">wiz.printlabel.form1</field>
+        <field name="model">wiz_print_label</field>
+        <field name="arch" type="xml">
+            <form string="Print label">
+                <group col="4" colspan="6">
+                    <field name="printer_id"  domain="[('isimpetiq', '=', True)]"/>
+                    <field name="label_id" />
+                </group>
+            
+	            <footer>
+	                <button string="Print" type="object" name="print_label" 
+	                        default_focus="1" class="oe_link"/>
+	                <button string="Cancel" class="oe_link" special="cancel"/>
+	            </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_menu_wiz_print_label" model="ir.actions.act_window">
+		<field name="name">Print label</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">wiz_print_label</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">form</field>
+        <field name="target">new</field>
+	</record>
+    
+    
+    
+    
+</odoo>

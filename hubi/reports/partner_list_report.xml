@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="report_partner_list_address">
+		<t t-call="web.html_container">
+		<t t-call="web.internal_layout">
+            <div class="page">
+                <h2>Partner List</h2>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>Carrier</th>
+                        <th>Is Customer</th>
+                        <th>Is Supplier</th>
+                        <th>Society</th>
+                    </tr>
+                    </thead>
+                    
+                    <tbody>
+                    <t t-foreach="docs" t-as="partner">
+                        <t t-set="carrier_info" t-value="partner.carrier_id"/>
+                        
+                        <tr>
+                            <td rowspan="3">
+                                <span t-field="partner.name" />
+                            </td>
+                            <td>
+                                <span t-field="partner.street" />
+                            </td>
+                            <td>
+                                <span t-field="partner.phone" />
+                            </td>
+                            <td>
+                                <span t-field="partner.carrier_id" />
+                            </td>
+                            <td rowspan="3">
+                                <span t-field="partner.customer" />
+                            </td>
+                            <td rowspan="3">
+                                <span t-field="partner.supplier" />
+                            </td>
+                            <td rowspan="3">
+                                <span t-field="partner.company_id" />
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <span t-field="partner.street2" />
+                            </td>
+                            <td>
+                                <span t-field="partner.mobile" />
+                            </td>
+                            <td>
+                                <span t-field="carrier_info.agency_number" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span t-field="partner.zip" />&amp;bull;<span t-field="partner.city" />
+                            </td>
+                            <td>
+                                <span t-field="partner.email" />
+                            </td>
+                            <td>
+                                <span t-field="carrier_info.agency_city" />
+                            </td>
+                        </tr>
+                        
+                        <tr t-if="partner_last">
+                            <td colspan="7">
+                                <strong>
+                                    <p>
+                                        Partner(s) Number :
+                                        <span t-esc="partner_size" />
+                                    </p>
+
+                                </strong>
+                            </td>
+                        </tr>
+                    </t>
+                    </tbody>
+                </table>
+            </div>           
+
+        </t>
+		</t>
+	</template>
+</odoo>
